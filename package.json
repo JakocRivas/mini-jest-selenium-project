@@ -1,0 +1,29 @@
+{
+  "name": "mini-jest-selenium-project",
+  "version": "1.0.0",
+  "description": "This is a practice project to get a hand of jest with selenium web driver",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakocRivas/mini-jest-selenium-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakocRivas/mini-jest-selenium-project/issues"
+  },
+  "homepage": "https://github.com/JakocRivas/mini-jest-selenium-project#readme",
+  "keywords": [],
+  "devDependencies": {
+    "chromedriver": "^77.0.0",
+    "geckodriver": "^1.19.0",
+    "jest": "^24.9.0",
+    "selenium-webdriver": "^4.0.0-alpha.5"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
+}
