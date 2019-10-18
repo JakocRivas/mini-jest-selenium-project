@@ -1,36 +1,15 @@
-const { email, password } = require("../resources/configuration/env"),
+require("../resources/configuration/env");
+const { email, password, ROOT_URL } = process.env,
   {
-    getElementById,
+    getElementByName,
     getTitle,
     Key,
     driver
   } = require("../resources/configuration/selenium");
 
-// const Builder = require("../resources/selenium").Builder;
-// const By = require("../resources/selenium").By;
-// const Key = require("../resources/selenium").Key;
-// const until = require("../resources/selenium").until;
-// const driver = require("../resources/selenium").driver;
-// const waitUntilTime = require("../resources/selenium").waitUntilTime;
-
-// async function example() {
-//   let driver = await new Builder()
-//     .forBrowser("chrome")
-//     .setChromeOptions("--incognito")
-//     .setFirefoxOptions(/* ... */)
-//     .build();
-//   try {
-//     await driver.get("http://www.google.com/ncr");
-//     await driver.findElement(By.name("q")).sendKeys("webdriver", Key.RETURN);
-//     await driver.wait(until.titleIs("webdriver - Google Search"), 1000);
-//   } finally {
-//     await driver.quit();
-//   }
-// }
-
 describe("this is a describe", () => {
   beforeAll(async () => {
-    driver.get("http://www.google.com/");
+    driver.get(ROOT_URL);
   });
 
   afterAll(async () => {
@@ -39,7 +18,7 @@ describe("this is a describe", () => {
   });
 
   test("this is a test", async () => {
-    let searchBar = await getElementById("q");
+    let searchBar = await getElementByName("q");
     await searchBar.sendKeys("webdriver", Key.ENTER);
     expect(await getTitle()).toBe("webdriver - Google Search");
   });

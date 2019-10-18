@@ -1,5 +1,4 @@
 "use strict";
-
 require("selenium-webdriver/chrome");
 require("selenium-webdriver/firefox");
 require("chromedriver");
@@ -9,47 +8,53 @@ require("geckodriver");
 // By describes mechanism to locate an element on the page
 // key representation of pressable keys on the keyboard
 const { Builder, By, Key, until, Capabilities } = require("selenium-webdriver");
-//   rootURL = "https://www.mozilla.org/en-US/",
-//   d = new Builder().forBrowser("firefox").build(),
 
 // Sets time to wait for the test to finish
 let waitUntilTime = 20000;
-
-// let driver, el, actual, expected;
-// jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000 * 60 * 5;
 
 // Each instance of webdriver provides automated control over a browser session
 const webdriver = require("selenium-webdriver"),
   chrome = require("selenium-webdriver/chrome"),
   firefox = require("selenium-webdriver/firefox");
+
+// Configuration of chrome web driver
 let caps = new Capabilities(),
   ChromeOptions = new chrome.Options();
 // ChromeOptions.headless();
-ChromeOptions.addArguments(["incognito", "--lang=en-GB", "headless"]);
-// let navigation = new Navigation();
-
-// caps.set(ChromeOptions);
+ChromeOptions.addArguments(["incognito", "--lang=en-GB"]);
 
 let driver = new Builder()
   .forBrowser("chrome")
   .setChromeOptions(ChromeOptions)
   .build();
 
-async function getElementById(id) {
+async function getElementByName(name) {
   return driver
-    .wait(until.elementLocated(By.name(id)), waitUntilTime)
-    .then(e => {
-      console.log(e, id);
-      return e;
+    .wait(until.elementLocated(By.name(name)), waitUntilTime)
+    .then(element => {
+      waitFor(element);
+      return element;
     })
     .catch(console.error);
 }
+
+async function getElementById(id) {
+  return driver
+    .wait(until.elementLocated(By.id(id)), waitUntilTime)
+    .then(element => {
+      waitFor(element);
+      return element;
+    })
+    .catch(console.error);
+}
+
 async function getElementByClassName(className) {
   const el = await driver.wait(
     until.elementLocated(By.className(className)),
     waitUntilTime
   );
-  return await driver.wait(until.elementIsVisible(el), waitUntilTime);
+  waitFor(el);
+  return el;
 }
 
 async function getElementBySelector(selector) {
@@ -57,14 +62,21 @@ async function getElementBySelector(selector) {
     until.elementLocated(By.css(selector)),
     waitUntilTime
   );
-  return await driver.wait(until.elementIsVisible(el), waitUntilTime);
+  waitFor(el);
+  return el;
 }
+
 async function getElementByXPath(xpath) {
   const el = await driver.wait(
     until.elementLocated(By.xpath(xpath)),
     waitUntilTime
   );
-  return await driver.wait(until.elementIsVisible(el), waitUntilTime);
+  waitFor(el);
+  return el;
+}
+
+async function waitFor(el) {
+  await driver.wait(until.elementIsVisible(el), waitUntilTime);
 }
 
 async function getTitle() {
@@ -74,7 +86,7 @@ async function getTitle() {
 // console.log(driver);
 module.exports = {
   getTitle,
-  getElementById,
+  getElementByName,
   Builder,
   By,
   Key,
