@@ -8,7 +8,7 @@ require("geckodriver");
 // Builder creates new webdriver instance
 // By describes mechanism to locate an element on the page
 // key representation of pressable keys on the keyboard
-const { Builder, By, Key, until } = require("selenium-webdriver");
+const { Builder, By, Key, until, Capabilities } = require("selenium-webdriver");
 //   rootURL = "https://www.mozilla.org/en-US/",
 //   d = new Builder().forBrowser("firefox").build(),
 
@@ -22,16 +22,27 @@ let waitUntilTime = 20000;
 const webdriver = require("selenium-webdriver"),
   chrome = require("selenium-webdriver/chrome"),
   firefox = require("selenium-webdriver/firefox");
+let caps = new Capabilities(),
+  ChromeOptions = new chrome.Options();
+// ChromeOptions.headless();
+ChromeOptions.addArguments(["incognito", "--lang=en-GB", "headless"]);
+// let navigation = new Navigation();
+
+// caps.set(ChromeOptions);
 
 let driver = new Builder()
   .forBrowser("chrome")
-  .setChromeOptions("--incognito")
-  .setFirefoxOptions(/* ... */)
+  .setChromeOptions(ChromeOptions)
   .build();
 
 async function getElementById(id) {
-  const el = await driver.wait(until.elementLocated(By.id(id)), waitUntilTime);
-  return await driver.wait(until.elementIsVisible(el), waitUntilTime);
+  return driver
+    .wait(until.elementLocated(By.name(id)), waitUntilTime)
+    .then(e => {
+      console.log(e, id);
+      return e;
+    })
+    .catch(console.error);
 }
 async function getElementByClassName(className) {
   const el = await driver.wait(
@@ -40,7 +51,7 @@ async function getElementByClassName(className) {
   );
   return await driver.wait(until.elementIsVisible(el), waitUntilTime);
 }
-let d, el;
+
 async function getElementBySelector(selector) {
   const el = await driver.wait(
     until.elementLocated(By.css(selector)),
@@ -56,31 +67,18 @@ async function getElementByXPath(xpath) {
   return await driver.wait(until.elementIsVisible(el), waitUntilTime);
 }
 
-it("waits for the driver to start", () => {
-  return d.then(_d => {
-    driver = _d;
-  });
-});
-it("initialises the context", async () => {
-  await driver
-    .manage()
-    .window()
-    .setPosition(0, 0);
-  await driver
-    .manage()
-    .window()
-    .setSize(1280, 1024);
-  await driver.get(rootURL);
-});
+async function getTitle() {
+  return await driver.getTitle().then(title => title);
+}
 
-it("should click on navbar button to display a drawer", async () => {
-  el = await getElementById("nav-button-menu");
-  el.click();
-  el = await getElementByXPath(
-    '//*[@id="moz-global-nav-drawer"]/div/div/ul/li[1]/h3/a'
-  );
-
-  actual = await el.getText();
-  expected = "chrome";
-  expect(actual).toEqual(expected);
-});
+// console.log(driver);
+module.exports = {
+  getTitle,
+  getElementById,
+  Builder,
+  By,
+  Key,
+  until,
+  driver,
+  waitUntilTime
+};
