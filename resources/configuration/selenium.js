@@ -3,6 +3,8 @@ require("selenium-webdriver/chrome");
 require("selenium-webdriver/firefox");
 require("chromedriver");
 require("geckodriver");
+require("dotenv").config();
+const { SELENIUM_BROWSER } = process.env;
 
 // Builder creates new webdriver instance
 // By describes mechanism to locate an element on the page
@@ -21,16 +23,21 @@ const webdriver = require("selenium-webdriver"),
 let caps = new Capabilities(),
   ChromeOptions = new chrome.Options();
 // ChromeOptions.headless();
-ChromeOptions.addArguments(["incognito", "--lang=en-GB"]);
+ChromeOptions.addArguments([
+  "incognito",
+  "--lang=en-GB",
+  "headless",
+  "--start-maximized"
+]);
 
 let driver = new Builder()
-  .forBrowser("chrome")
+  .forBrowser(SELENIUM_BROWSER)
   .setChromeOptions(ChromeOptions)
   .build();
 
 async function getElementByName(name) {
   return driver
-    .wait(until.elementLocated(By.name(name)), waitUntilTime)
+    .findElement(By.name(name))
     .then(element => {
       waitFor(element);
       return element;
@@ -41,6 +48,16 @@ async function getElementByName(name) {
 async function getElementById(id) {
   return driver
     .wait(until.elementLocated(By.id(id)), waitUntilTime)
+    .then(element => {
+      waitFor(element);
+      return element;
+    })
+    .catch(console.error);
+}
+
+async function getElementByTagName(tagName) {
+  return driver
+    .findElement(By.tagName(tagName))
     .then(element => {
       waitFor(element);
       return element;
@@ -83,7 +100,6 @@ async function getTitle() {
   return await driver.getTitle().then(title => title);
 }
 
-// console.log(driver);
 module.exports = {
   getTitle,
   getElementByName,
@@ -92,5 +108,6 @@ module.exports = {
   Key,
   until,
   driver,
-  waitUntilTime
+  waitUntilTime,
+  getElementByTagName
 };

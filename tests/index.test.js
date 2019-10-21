@@ -4,7 +4,9 @@ const { email, password, ROOT_URL } = process.env,
     getElementByName,
     getTitle,
     Key,
-    driver
+    driver,
+    By,
+    getElementByTagName
   } = require("../resources/configuration/selenium");
 
 describe("this is a describe", () => {
@@ -20,6 +22,11 @@ describe("this is a describe", () => {
   test("this is a test", async () => {
     let searchBar = await getElementByName("q");
     await searchBar.sendKeys("webdriver", Key.ENTER);
+
+    const li = await getElementByTagName("li");
+
+    console.log(await li.getAttribute("className"));
+
     expect(await getTitle()).toBe("webdriver - Google Search");
   });
 });
