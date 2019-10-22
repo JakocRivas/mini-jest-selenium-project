@@ -56,7 +56,7 @@ async function getElementById(id) {
 }
 
 async function getElementByTagName(tagName) {
-  var elements = await driver.wait(
+  let tags = await driver.wait(
     until.elementsLocated(By.tagName(tagName), waitUntilTime)
   );
 
@@ -64,7 +64,7 @@ async function getElementByTagName(tagName) {
 }
 
 async function getElementByClassName(className) {
-  var classes = await driver.wait(
+  let classes = await driver.wait(
     until.elementsLocated(By.className(className), waitUntilTime)
   );
   return classes;
