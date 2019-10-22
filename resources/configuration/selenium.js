@@ -34,6 +34,13 @@ let driver = new Builder()
   .forBrowser(SELENIUM_BROWSER)
   .setChromeOptions(ChromeOptions)
   .build();
+function quit() {
+  driver.quit();
+}
+
+function goTo(url) {
+  driver.get(url);
+}
 
 async function getElementByName(name) {
   return driver
@@ -106,5 +113,7 @@ module.exports = {
   driver,
   waitUntilTime,
   getElementByTagName,
-  getElementByClassName
+  getElementByClassName,
+  quit,
+  goTo
 };

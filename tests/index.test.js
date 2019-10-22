@@ -6,16 +6,18 @@ const { email, password, ROOT_URL } = process.env,
     Key,
     driver,
     By,
-    getElementByTagName
+    getElementByTagName,
+    quit,
+    goTo
   } = require("../resources/configuration/selenium");
 
 describe("this is a describe", () => {
   beforeAll(async () => {
-    driver.get(ROOT_URL);
+    goTo(ROOT_URL);
   });
 
   afterAll(async () => {
-    driver.quit();
+    quit();
     console.log("raw");
   });
 
