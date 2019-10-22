@@ -19,11 +19,10 @@
   "keywords": [],
   "devDependencies": {
     "chromedriver": "^77.0.0",
+    "dotenv": "^8.2.0",
     "geckodriver": "^1.19.0",
     "jest": "^24.9.0",
     "selenium-webdriver": "^4.0.0-alpha.5"
   },
-  "dependencies": {
-    "dotenv": "^8.2.0"
-  }
+  "dependencies": {}
 }

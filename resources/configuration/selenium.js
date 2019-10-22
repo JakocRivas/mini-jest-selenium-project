@@ -56,22 +56,18 @@ async function getElementById(id) {
 }
 
 async function getElementByTagName(tagName) {
-  return driver
-    .findElement(By.tagName(tagName))
-    .then(element => {
-      waitFor(element);
-      return element;
-    })
-    .catch(console.error);
+  var elements = await driver.wait(
+    until.elementsLocated(By.tagName(tagName), waitUntilTime)
+  );
+
+  return tags;
 }
 
 async function getElementByClassName(className) {
-  const el = await driver.wait(
-    until.elementLocated(By.className(className)),
-    waitUntilTime
+  var classes = await driver.wait(
+    until.elementsLocated(By.className(className), waitUntilTime)
   );
-  waitFor(el);
-  return el;
+  return classes;
 }
 
 async function getElementBySelector(selector) {
@@ -109,5 +105,6 @@ module.exports = {
   until,
   driver,
   waitUntilTime,
-  getElementByTagName
+  getElementByTagName,
+  getElementByClassName
 };

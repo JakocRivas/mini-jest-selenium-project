@@ -23,9 +23,13 @@ describe("this is a describe", () => {
     let searchBar = await getElementByName("q");
     await searchBar.sendKeys("webdriver", Key.ENTER);
 
-    const li = await getElementByTagName("li");
+    const webElements = await getElementByTagName("li");
 
-    console.log(await li.getAttribute("className"));
+    let classesPromises = await Promise.all(
+      webElements.map(className => className.getAttribute("className"))
+    );
+
+    console.log(classesPromises);
 
     expect(await getTitle()).toBe("webdriver - Google Search");
   });
