@@ -1,4 +1,5 @@
-require("./node_modules/dotenv").config();
+"use strict";
+require("../../configuration/env");
 const { email, password } = process.env;
 
 module.exports = {
