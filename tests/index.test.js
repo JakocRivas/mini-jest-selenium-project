@@ -11,7 +11,7 @@ const { email, password, ROOT_URL } = process.env,
     goTo
   } = require("../resources/configuration/selenium");
 
-describe("this is a describe", () => {
+xdescribe("this is a describe", () => {
   beforeAll(async () => {
     goTo(ROOT_URL);
   });
