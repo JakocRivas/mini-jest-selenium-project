@@ -26,17 +26,9 @@ class LoginPage {
 
   async login(email, password) {
     // try {
-    // const loginButton = await getElementBySelector(this.homepageLogin);
-    // loginButton.click();
-    // await getElementBySelector(this.homepageLogin).then(element =>
-    //   element.click()
-    // );
     await waitAndClickSelector(this.homepageLogin);
     console.log(this.emailField);
     await waitForSelector(this.emailField);
-    // await waitFor(this.credentialsLogin);
-    // this.homepageLogin;
-    // const
     // } catch (err) {
     //   console.error(`something went wrong with the log in ${err}`);
     // }
