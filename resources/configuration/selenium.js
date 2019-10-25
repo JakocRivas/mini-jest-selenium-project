@@ -92,19 +92,35 @@ async function getElementByXPath(xpath) {
   return el;
 }
 
-// waits for the web element of the selector
-async function waitForElement(el) {
-  const element = await driver.wait(until.elementIsVisible(el), waitUntilTime);
+/**
+ * Waits for the web element of the selector to be visible and returns it
+ *
+ * @param {string} el
+ * @returns {webElement} element
+ */
+async function waitForElement(selector) {
+  const element = await driver.wait(
+    until.elementIsVisible(selector),
+    waitUntilTime
+  );
   return element;
 }
 
-// waits only for the selector and does not returns it
+/**
+ * waits only for the selector to be located on the page and does not returns it
+ *
+ * @param {selector} selector a css selector
+ */
 async function waitForSelector(selector) {
-  // await wait.until(driver.elementLocated(By.css(selector)));
   await driver.wait(until.elementLocated(By.css(selector), waitUntilTime));
 }
 
-// waits for the web element of the selector and returns it
+/**
+ * Finds the web element of the selector and returns it
+ *
+ * @param {string} selector
+ * @returns {webElement}
+ */
 async function getWebElement(selector) {
   const webElement = await driver.findElement(By.css(selector));
   await waitForElement(webElement);
