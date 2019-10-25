@@ -1,7 +1,8 @@
 const {
   getElementBySelector,
   waitForElement,
-  getWebElement
+  getWebElement,
+  waitForSelector
 } = require("../configuration/selenium");
 
 /**
@@ -12,4 +13,12 @@ const {
 async function waitAndClickSelector(selector) {
   await getElementBySelector(selector).then(element => element.click());
 }
-module.exports = { waitAndClickSelector };
+
+async function TypeOnSelector(selector, string) {
+  await waitForSelector(selector);
+  await getElementBySelector(selector).then(element =>
+    element.sendKeys(string)
+  );
+}
+
+module.exports = { waitAndClickSelector, TypeOnSelector };

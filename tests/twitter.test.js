@@ -1,5 +1,5 @@
 require("../resources/configuration/env");
-const { email, password, ROOT_URL } = process.env,
+const { EMAIL, PASSWORD, ROOT_URL } = process.env,
   {
     getElementByName,
     getTitle,
@@ -29,6 +29,6 @@ describe("twitter", () => {
   });
 
   it("should log in", async () => {
-    await loginPage.login();
+    await loginPage.login(EMAIL, PASSWORD);
   });
 });

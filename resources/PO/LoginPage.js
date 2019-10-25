@@ -7,7 +7,7 @@ const { signUpTitle } = require("./login/header"),
     getWebElement,
     waitForSelector
   } = require("../configuration/selenium"),
-  { waitAndClickSelector } = require("../helpers/helper");
+  { waitAndClickSelector, TypeOnSelector } = require("../helpers/helper");
 
 class LoginPage {
   constructor() {
@@ -27,8 +27,11 @@ class LoginPage {
   async login(email, password) {
     // try {
     await waitAndClickSelector(this.homepageLogin);
-    console.log(this.emailField);
-    await waitForSelector(this.emailField);
+    await TypeOnSelector(this.emailField, email);
+
+    await waitForSelector(this.passwordField);
+    await TypeOnSelector(this.passwordField, password);
+
     // } catch (err) {
     //   console.error(`something went wrong with the log in ${err}`);
     // }
