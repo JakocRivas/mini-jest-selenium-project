@@ -46,7 +46,7 @@ async function getElementByName(name) {
   return driver
     .findElement(By.name(name))
     .then(element => {
-      waitFor(element);
+      waitForElement(element);
       return element;
     })
     .catch(console.error);
@@ -78,16 +78,9 @@ async function getElementByClassName(className) {
 }
 
 async function getElementBySelector(selector) {
-  return driver.findElement(By.css(selector)).then(element => {
-    waitFor(element);
-    return element;
-  });
-  const el = await driver.wait(
-    until.elementLocated(By.css(selector)),
-    waitUntilTime
-  );
-  waitFor(el);
-  return el;
+  const webElement = await driver.findElement(By.css(selector));
+  await waitForElement(webElement);
+  return webElement;
 }
 
 async function getElementByXPath(xpath) {
@@ -99,8 +92,24 @@ async function getElementByXPath(xpath) {
   return el;
 }
 
-async function waitFor(el) {
-  await driver.wait(until.elementIsVisible(el), waitUntilTime);
+// waits for the web element of the selector
+async function waitForElement(el) {
+  const element = await driver.wait(until.elementIsVisible(el), waitUntilTime);
+  return element;
+}
+
+// waits only for the selector and does not returns it
+async function waitForSelector(selector) {
+  // await wait.until(driver.elementLocated(By.css(selector)));
+  await driver.wait(until.elementLocated(By.css(selector), waitUntilTime));
+}
+
+// waits for the web element of the selector and returns it
+async function getWebElement(selector) {
+  const webElement = await driver.findElement(By.css(selector));
+  await waitForElement(webElement);
+
+  return webElement;
 }
 
 async function getTitle() {
@@ -120,5 +129,8 @@ module.exports = {
   getElementByClassName,
   quit,
   goTo,
-  getElementBySelector
+  getElementBySelector,
+  waitForElement,
+  getWebElement,
+  waitForSelector
 };

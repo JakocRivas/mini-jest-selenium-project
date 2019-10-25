@@ -15,15 +15,20 @@ const { email, password, ROOT_URL } = process.env,
 describe("twitter", () => {
   beforeAll(async () => {
     loginPage = new LoginPage();
-    console.log(LoginPage);
     goTo(ROOT_URL);
   });
+
   afterAll(() => {
     console.log("rawr");
     quit();
   });
+
   test("if there is a header on the page", async () => {
     const header = await loginPage.waitForHeader();
     expect(header).toBe("See what’s happening in the world right now");
+  });
+
+  it("should log in", async () => {
+    await loginPage.login();
   });
 });
