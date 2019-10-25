@@ -1,4 +1,3 @@
-console.log("rawr");
 const { signUpTitle } = require("./login/header"),
   { homepageLogin, credentialsLogin } = require("./login/logInButton"),
   {
@@ -18,7 +17,7 @@ class LoginPage {
 
   async waitForHeader() {
     const header = await getElementBySelector(this.header);
-    return header;
+    return header.getText();
   }
 }
 module.exports.LoginPage = LoginPage;

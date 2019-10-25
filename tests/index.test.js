@@ -1,17 +1,17 @@
-require("../resources/configuration/env");
-const { email, password, ROOT_URL } = process.env,
-  {
-    getElementByName,
-    getTitle,
-    Key,
-    driver,
-    By,
-    getElementByTagName,
-    quit,
-    goTo
-  } = require("../resources/configuration/selenium"),
-  { LoginPage } = require("../resources/PO/LoginPage");
-
+// require("../resources/configuration/env");
+// const { email, password, ROOT_URL } = process.env,
+//   {
+//     getElementByName,
+//     getTitle,
+//     Key,
+//     driver,
+//     By,
+//     getElementByTagName,
+//     quit,
+//     goTo
+//   } = require("../resources/configuration/selenium"),
+//   { LoginPage } = require("../resources/PO/LoginPage");
+xit("some dummy test", () => {});
 // describe("this is a describe", () => {
 //   beforeAll(async () => {
 //     goTo(ROOT_URL);
@@ -37,17 +37,3 @@ const { email, password, ROOT_URL } = process.env,
 //     expect(await getTitle()).toBe("webdriver - Google Search");
 //   });
 // });
-
-describe("twitter", () => {
-  beforeAll(async () => {
-    loginPage = new LoginPage();
-    console.log(LoginPage);
-    goTo(ROOT_URL);
-  });
-  afterAll(() => {
-    quit();
-  });
-  test("if there is a header on the page", async () => {
-    await loginPage.waitForHeader();
-  });
-});
