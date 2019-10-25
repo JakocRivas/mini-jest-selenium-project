@@ -26,7 +26,7 @@ let caps = new Capabilities(),
 ChromeOptions.addArguments([
   "incognito",
   "--lang=en-GB",
-  "headless",
+  // "headless",
   "--start-maximized"
 ]);
 
@@ -78,6 +78,10 @@ async function getElementByClassName(className) {
 }
 
 async function getElementBySelector(selector) {
+  return driver.findElement(By.css(selector)).then(element => {
+    waitFor(element);
+    return element;
+  });
   const el = await driver.wait(
     until.elementLocated(By.css(selector)),
     waitUntilTime
@@ -115,5 +119,6 @@ module.exports = {
   getElementByTagName,
   getElementByClassName,
   quit,
-  goTo
+  goTo,
+  getElementBySelector
 };

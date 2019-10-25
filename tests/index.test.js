@@ -9,30 +9,45 @@ const { email, password, ROOT_URL } = process.env,
     getElementByTagName,
     quit,
     goTo
-  } = require("../resources/configuration/selenium");
+  } = require("../resources/configuration/selenium"),
+  { LoginPage } = require("../resources/PO/LoginPage");
 
-xdescribe("this is a describe", () => {
+// describe("this is a describe", () => {
+//   beforeAll(async () => {
+//     goTo(ROOT_URL);
+//   });
+
+//   afterAll(async () => {
+//     quit();
+//     console.log("raw");
+//   });
+
+//   test("this is a test", async () => {
+//     let searchBar = await getElementByName("q");
+//     await searchBar.sendKeys("webdriver", Key.ENTER);
+
+//     const webElements = await getElementByTagName("li");
+
+//     let classesPromises = await Promise.all(
+//       webElements.map(className => className.getAttribute("className"))
+//     );
+
+//     console.log(classesPromises);
+
+//     expect(await getTitle()).toBe("webdriver - Google Search");
+//   });
+// });
+
+describe("twitter", () => {
   beforeAll(async () => {
+    loginPage = new LoginPage();
+    console.log(LoginPage);
     goTo(ROOT_URL);
   });
-
-  afterAll(async () => {
+  afterAll(() => {
     quit();
-    console.log("raw");
   });
-
-  test("this is a test", async () => {
-    let searchBar = await getElementByName("q");
-    await searchBar.sendKeys("webdriver", Key.ENTER);
-
-    const webElements = await getElementByTagName("li");
-
-    let classesPromises = await Promise.all(
-      webElements.map(className => className.getAttribute("className"))
-    );
-
-    console.log(classesPromises);
-
-    expect(await getTitle()).toBe("webdriver - Google Search");
+  test("if there is a header on the page", async () => {
+    await loginPage.waitForHeader();
   });
 });

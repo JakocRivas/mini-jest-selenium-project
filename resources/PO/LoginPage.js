@@ -8,16 +8,17 @@ const { signUpTitle } = require("./login/header"),
     password,
     wrongEmail,
     wrongPassword
-  } = require("./login/loginForm");
+  } = require("./login/loginForm"),
+  { getElementBySelector } = require("../configuration/selenium");
 
-console.log(
-  signUpTitle,
-  homepageLogin,
-  credentialsLogin,
-  emailField,
-  passwordField,
-  email,
-  password,
-  wrongEmail,
-  wrongPassword
-);
+class LoginPage {
+  constructor() {
+    this.header = signUpTitle;
+  }
+
+  async waitForHeader() {
+    const header = await getElementBySelector(this.header);
+    return header;
+  }
+}
+module.exports.LoginPage = LoginPage;
