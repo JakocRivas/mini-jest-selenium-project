@@ -21,12 +21,11 @@ async function TypeOnSelector(selector, string) {
   );
 }
 async function waitListOfSelectors(arr) {
-  await arr.forEach(async element => {
-    await waitForSelector(element);
-    await waitElementClickable(element);
-    await waitForElement(element);
-    console.log(element);
-  });
+  await Promise.all(
+    arr.forEach(async element => {
+      await waitForSelector(element);
+    })
+  );
 }
 
 module.exports = { waitAndClickSelector, TypeOnSelector, waitListOfSelectors };

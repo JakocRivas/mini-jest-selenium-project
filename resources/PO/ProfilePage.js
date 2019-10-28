@@ -43,7 +43,6 @@ class ProfilePage {
     await waitForSelector(this.searchBar);
 
     await waitAndClickSelector(this.searchBar);
-    await waitFor();
     await TypeOnSelector(this.searchBar, person);
     await waitAndClickSelector(this.searchBar);
 

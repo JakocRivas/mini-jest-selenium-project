@@ -12,7 +12,7 @@ const { SELENIUM_BROWSER } = process.env;
 const { Builder, By, Key, until, Capabilities } = require("selenium-webdriver");
 
 // Sets time to wait for the test to finish
-let waitUntilTime = 20000;
+let waitUntilTime = 50000;
 
 // Each instance of webdriver provides automated control over a browser session
 const webdriver = require("selenium-webdriver"),
