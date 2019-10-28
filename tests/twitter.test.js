@@ -1,5 +1,7 @@
 require("../resources/configuration/env");
 const { EMAIL, PASSWORD, ROOT_URL } = process.env,
+  { signUpTitle } = require("../resources/PO/login/header"),
+  { home } = require("../resources/PO/timeLine/header"),
   {
     getElementByName,
     getTitle,
@@ -26,11 +28,16 @@ describe("twitter", () => {
   });
 
   test("if there is a header on the page", async () => {
-    const header = await loginPageInstance.waitForHeader();
+    const header = await loginPageInstance.waitForHeader(signUpTitle);
     await expect(header).toBe("See what’s happening in the world right now");
   });
 
   it("should log in", async () => {
     await loginPageInstance.login(EMAIL, PASSWORD);
+  });
+
+  it("should wait for the timeline to load", async () => {
+    const header = await loginPageInstance.waitForHeader(home);
+    expect(header).toBe("Home");
   });
 });

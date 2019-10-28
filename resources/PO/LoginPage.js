@@ -1,6 +1,7 @@
 const { signUpTitle } = require("./login/header"),
   { homepageLogin, credentialsLogin } = require("./login/logInButton"),
   { emailField, passwordField, loginButton } = require("./login/loginForm"),
+  { home } = require("./timeLine/header"),
   {
     getElementBySelector,
     waitForElement,
@@ -17,11 +18,12 @@ class LoginPage {
     this.homepageLogin = homepageLogin;
     this.credentialsLogin = credentialsLogin;
     this.loginButton = loginButton;
+    this.timelineHome = home;
   }
 
   // Waits for the h1 of the page to be loaded and returns it text
-  async waitForHeader() {
-    const header = await getElementBySelector(this.header);
+  async waitForHeader(selector) {
+    const header = await getElementBySelector(selector);
     return header.getText();
   }
 
