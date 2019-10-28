@@ -115,6 +115,21 @@ async function waitForSelector(selector) {
   await driver.wait(until.elementLocated(By.css(selector), waitUntilTime));
 }
 
+async function waitElementClickable(selector) {
+  const element = await getElementBySelector(selector);
+  let visible = await driver.wait(
+    until.elementIsVisible(element),
+    waitUntilTime
+  );
+  let enabled = await driver.wait(
+    until.elementIsEnabled(element),
+    waitUntilTime
+  );
+  if (visible && enabled) {
+    return element;
+  }
+}
+
 /**
  * Finds the web element of the selector and returns it
  *
@@ -130,6 +145,10 @@ async function getWebElement(selector) {
 
 async function getTitle() {
   return await driver.getTitle().then(title => title);
+}
+
+function waitFor() {
+  driver.sleep(waitUntilTime);
 }
 
 module.exports = {
@@ -148,5 +167,7 @@ module.exports = {
   getElementBySelector,
   waitForElement,
   getWebElement,
-  waitForSelector
+  waitForSelector,
+  waitElementClickable,
+  waitFor
 };

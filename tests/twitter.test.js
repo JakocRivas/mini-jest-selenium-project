@@ -13,13 +13,14 @@ const { EMAIL, PASSWORD, ROOT_URL } = process.env,
     goTo
   } = require("../resources/configuration/selenium");
 
-("use strict");
 let LoginPage = require("../resources/PO/LoginPage");
+let Timeline = require("../resources/PO/TimelinePage");
 
 describe("twitter", () => {
   beforeAll(async () => {
     goTo(ROOT_URL);
     loginPageInstance = new LoginPage();
+    timelineInstance = new Timeline();
   });
 
   afterAll(() => {
@@ -39,5 +40,13 @@ describe("twitter", () => {
   it("should wait of the timeline to load", async () => {
     const header = await loginPageInstance.waitForHeader(home);
     expect(header).toBe("Home");
+  });
+
+  it("should post message", async () => {
+    await timelineInstance.postMessage();
+  });
+
+  it("should delete message", async () => {
+    await timelineInstance.deleteMessage();
   });
 });
