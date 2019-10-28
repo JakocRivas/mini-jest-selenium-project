@@ -15,12 +15,14 @@ const { EMAIL, PASSWORD, ROOT_URL } = process.env,
 
 let LoginPage = require("../resources/PO/LoginPage");
 let Timeline = require("../resources/PO/TimelinePage");
+let ProfilePage = require("../resources/PO/ProfilePage");
 
 describe("twitter", () => {
   beforeAll(async () => {
     goTo(ROOT_URL);
     loginPageInstance = new LoginPage();
     timelineInstance = new Timeline();
+    profilePageInstance = new ProfilePage();
   });
 
   afterAll(() => {
@@ -42,11 +44,19 @@ describe("twitter", () => {
     expect(header).toBe("Home");
   });
 
-  it("should post message", async () => {
+  xit("should post message", async () => {
     await timelineInstance.postMessage();
   });
 
-  it("should delete message", async () => {
+  xit("should delete message", async () => {
     await timelineInstance.deleteMessage();
+  });
+
+  test("if an user was searched", async () => {
+    await profilePageInstance.search();
+  });
+
+  it("should scrape the data of the person that has been searched", async () => {
+    await profilePageInstance.getData();
   });
 });

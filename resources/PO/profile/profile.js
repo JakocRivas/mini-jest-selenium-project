@@ -1,6 +1,6 @@
 module.exports = {
   name:
-    "#page-container .AppContainer .ProfileHeaderCard .ProfileHeaderCard-name",
+    "#page-container .AppContainer .ProfileHeaderCard .ProfileHeaderCard-name a",
   account:
     "#page-container .AppContainer .ProfileSidebar .ProfileHeaderCard-screenname span",
   bio: "#page-container .AppContainer .ProfileSidebar .ProfileHeaderCard-bio",

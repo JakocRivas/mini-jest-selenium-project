@@ -20,5 +20,13 @@ async function TypeOnSelector(selector, string) {
     element.sendKeys(string)
   );
 }
+async function waitListOfSelectors(arr) {
+  await arr.forEach(async element => {
+    await waitForSelector(element);
+    await waitElementClickable(element);
+    await waitForElement(element);
+    console.log(element);
+  });
+}
 
-module.exports = { waitAndClickSelector, TypeOnSelector };
+module.exports = { waitAndClickSelector, TypeOnSelector, waitListOfSelectors };
