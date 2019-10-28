@@ -36,7 +36,7 @@ describe("twitter", () => {
     await loginPageInstance.login(EMAIL, PASSWORD);
   });
 
-  it("should wait for the timeline to load", async () => {
+  it("should wait of the timeline to load", async () => {
     const header = await loginPageInstance.waitForHeader(home);
     expect(header).toBe("Home");
   });
