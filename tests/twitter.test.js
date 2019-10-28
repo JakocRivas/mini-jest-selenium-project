@@ -9,13 +9,15 @@ const { EMAIL, PASSWORD, ROOT_URL } = process.env,
     getElementByTagName,
     quit,
     goTo
-  } = require("../resources/configuration/selenium"),
-  { LoginPage } = require("../resources/PO/LoginPage");
+  } = require("../resources/configuration/selenium");
+
+("use strict");
+let LoginPage = require("../resources/PO/LoginPage");
 
 describe("twitter", () => {
   beforeAll(async () => {
-    loginPage = new LoginPage();
     goTo(ROOT_URL);
+    loginPageInstance = new LoginPage();
   });
 
   afterAll(() => {
@@ -24,11 +26,11 @@ describe("twitter", () => {
   });
 
   test("if there is a header on the page", async () => {
-    const header = await loginPage.waitForHeader();
-    expect(header).toBe("See what’s happening in the world right now");
+    const header = await loginPageInstance.waitForHeader();
+    await expect(header).toBe("See what’s happening in the world right now");
   });
 
   it("should log in", async () => {
-    await loginPage.login(EMAIL, PASSWORD);
+    await loginPageInstance.login(EMAIL, PASSWORD);
   });
 });

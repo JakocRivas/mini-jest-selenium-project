@@ -1,6 +1,6 @@
 const { signUpTitle } = require("./login/header"),
   { homepageLogin, credentialsLogin } = require("./login/logInButton"),
-  { emailField, passwordField } = require("./login/loginForm"),
+  { emailField, passwordField, loginButton } = require("./login/loginForm"),
   {
     getElementBySelector,
     waitForElement,
@@ -16,6 +16,7 @@ class LoginPage {
     this.passwordField = passwordField;
     this.homepageLogin = homepageLogin;
     this.credentialsLogin = credentialsLogin;
+    this.loginButton = loginButton;
   }
 
   // Waits for the h1 of the page to be loaded and returns it text
@@ -25,16 +26,15 @@ class LoginPage {
   }
 
   async login(email, password) {
-    // try {
     await waitAndClickSelector(this.homepageLogin);
     await TypeOnSelector(this.emailField, email);
 
     await waitForSelector(this.passwordField);
     await TypeOnSelector(this.passwordField, password);
 
-    // } catch (err) {
-    //   console.error(`something went wrong with the log in ${err}`);
-    // }
+    await waitForSelector(this.loginButton);
+    await waitAndClickSelector(this.loginButton);
   }
 }
-module.exports.LoginPage = LoginPage;
+
+module.exports = LoginPage;
