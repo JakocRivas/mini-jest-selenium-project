@@ -57,12 +57,13 @@ class ProfilePage {
     // await waitForSelector(this.name);
 
     const accountData = async object => {
-      await waitForSelector(this.name);
-      await waitForSelector(this.account);
-      await waitForSelector(this.bio);
-      await waitForSelector(this.location);
-      await waitForSelector(this.personalSite);
-      await waitForSelector(this.joinDate);
+      // await waitForSelector(this.name);
+      // await waitForSelector(this.account);
+      // await waitForSelector(this.bio);
+      // await waitForSelector(this.location);
+      // await waitForSelector(this.personalSite);
+      // await waitForSelector(this.joinDate);
+      await waitListOfSelectors([this.name,this.account,this.bio,this.location,this.personalSite,this.joinDate])
       const personName = await getElementBySelector(this.name).then(text =>
         text.getText()
       );

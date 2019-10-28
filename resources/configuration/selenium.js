@@ -31,7 +31,7 @@ ChromeOptions.addArguments([
 ]);
 
 let driver = new Builder()
-  .forBrowser(SELENIUM_BROWSER)
+  .forBrowser('chrome')
   .setChromeOptions(ChromeOptions)
   .build();
 function quit() {

@@ -19,7 +19,7 @@ let ProfilePage = require("../resources/PO/ProfilePage");
 
 describe("twitter", () => {
   beforeAll(async () => {
-    goTo(ROOT_URL);
+    goTo('https://twitter.com');
     loginPageInstance = new LoginPage();
     timelineInstance = new Timeline();
     profilePageInstance = new ProfilePage();
@@ -36,7 +36,7 @@ describe("twitter", () => {
   });
 
   it("should log in", async () => {
-    await loginPageInstance.login(EMAIL, PASSWORD);
+    await loginPageInstance.login("testyboiint@gmail.com", "welcome1234");
   });
 
   it("should wait of the timeline to load", async () => {
