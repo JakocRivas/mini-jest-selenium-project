@@ -31,15 +31,23 @@ ChromeOptions.addArguments([
 ]);
 
 let driver = new Builder()
-  .forBrowser('chrome')
+  .forBrowser(SELENIUM_BROWSER)
   .setChromeOptions(ChromeOptions)
   .build();
+
 function quit() {
   driver.quit();
 }
 
 function goTo(url) {
   driver.get(url);
+}
+
+function loadPage() {
+  driver.manage().setTimeout({ pageLoad: 15000 });
+  // .set
+  // .timeouts()
+  // .implicitlywait(15, TimeUnit.seconds);
 }
 
 async function getElementByName(name) {
@@ -62,9 +70,9 @@ async function getElementById(id) {
     .catch(console.error);
 }
 
-async function getElementByTagName(tagName) {
+async function getListOfSelector(selector) {
   let tags = await driver.wait(
-    until.elementsLocated(By.tagName(tagName), waitUntilTime)
+    until.elementsLocated(By.css(selector), waitUntilTime)
   );
 
   return tags;
@@ -83,13 +91,14 @@ async function getElementBySelector(selector) {
   return webElement;
 }
 
-async function getElementByXPath(xpath) {
-  const el = await driver.wait(
-    until.elementLocated(By.xpath(xpath)),
-    waitUntilTime
-  );
-  waitFor(el);
-  return el;
+async function getElementByXPath(selector) {
+  const webElement = await driver.findElement(By.xpath(selector));
+  await waitForElement(webElement);
+  return webElement;
+}
+
+async function awaitIt(element) {
+  await driver.wait(until.elementIsVisible(element), waitUntilTime);
 }
 
 /**
@@ -147,9 +156,21 @@ async function getTitle() {
   return await driver.getTitle().then(title => title);
 }
 
-function waitFor() {
-  driver.sleep(waitUntilTime);
+function waitFor(a = waitUntilTime) {
+  driver.sleep(a);
 }
+function refresh() {
+  driver.navigate().refresh();
+}
+
+// async function alertHandler(element) {
+//   const wait = await new WebDriverWait(driver, new TimeSpan(0, 0, 30));
+//   await wait.until(
+//     SeleniumExtras.WaitHelpers.ExpectedConditions.elementToBeClickable(
+//       By.css(lastElementToLoad)
+//     )
+//   );
+// }
 
 module.exports = {
   getTitle,
@@ -160,8 +181,9 @@ module.exports = {
   until,
   driver,
   waitUntilTime,
-  getElementByTagName,
+  getListOfSelector,
   getElementByClassName,
+  getElementByXPath,
   quit,
   goTo,
   getElementBySelector,
@@ -169,5 +191,8 @@ module.exports = {
   getWebElement,
   waitForSelector,
   waitElementClickable,
-  waitFor
+  waitFor,
+  loadPage,
+  refresh,
+  awaitIt
 };

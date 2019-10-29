@@ -15,7 +15,9 @@ const { searchBar, searchedPerson, person } = require("./search/search"),
     getWebElement,
     waitForSelector,
     waitElementClickable,
-    waitFor
+    waitFor,
+    getListOfSelector,
+    refresh
   } = require("../configuration/selenium"),
   {
     waitAndClickSelector,
@@ -40,7 +42,9 @@ class ProfilePage {
   }
 
   async search() {
+    await refresh();
     await waitForSelector(this.searchBar);
+    await waitElementClickable(this.searchBar);
 
     await waitAndClickSelector(this.searchBar);
     await TypeOnSelector(this.searchBar, person);
@@ -54,16 +58,17 @@ class ProfilePage {
 
   async getData() {
     let data = {};
-    // await waitForSelector(this.name);
 
     const accountData = async object => {
-      // await waitForSelector(this.name);
-      // await waitForSelector(this.account);
-      // await waitForSelector(this.bio);
-      // await waitForSelector(this.location);
-      // await waitForSelector(this.personalSite);
-      // await waitForSelector(this.joinDate);
-      await waitListOfSelectors([this.name,this.account,this.bio,this.location,this.personalSite,this.joinDate])
+      await waitListOfSelectors([
+        this.name,
+        this.account,
+        this.bio,
+        this.location,
+        this.personalSite,
+        this.joinDate
+      ]);
+
       const personName = await getElementBySelector(this.name).then(text =>
         text.getText()
       );
@@ -91,7 +96,16 @@ class ProfilePage {
     };
     await accountData(data);
 
-    console.log(data);
+    const navData = async object => {
+      await waitForSelector(this.navInformation);
+      const numberOfActions = await getListOfSelector(this.navInformation);
+      object["Tweets"] = await numberOfActions[0].getText();
+      object["Following"] = await numberOfActions[1].getText();
+      object["Followers"] = await numberOfActions[2].getText();
+      object["Likes"] = await numberOfActions[3].getText();
+    };
+    await navData(data);
+    return data;
   }
 }
 
