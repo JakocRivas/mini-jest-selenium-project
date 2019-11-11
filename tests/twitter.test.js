@@ -37,20 +37,20 @@ describe("twitter", () => {
     quit();
   });
 
-  xit("should wait of the timeline to load", async () => {
+  it("should wait of the timeline to load", async () => {
     const header = await loginPageInstance.waitForHeader(home);
     expect(header).toBe("Home");
   });
 
-  xit("should post message", async () => {
+  it("should post message", async () => {
     await timelineInstance.postMessage();
   });
 
-  xit("should delete message", async () => {
+  it("should delete message", async () => {
     await timelineInstance.deleteMessage();
   });
 
-  xit("if an user was searched", async () => {
+  it("if an user was searched", async () => {
     await waitFor(15000);
     await profilePageInstance.search();
   });
