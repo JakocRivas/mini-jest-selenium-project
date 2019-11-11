@@ -24,5 +24,7 @@
     "jest": "^24.9.0",
     "selenium-webdriver": "^4.0.0-alpha.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "image-downloader": "^3.5.0"
+  }
 }

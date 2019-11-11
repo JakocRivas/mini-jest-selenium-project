@@ -24,6 +24,7 @@ const { searchBar, searchedPerson, person } = require("./search/search"),
     TypeOnSelector,
     waitListOfSelectors
   } = require("../helpers/helper");
+var crypto = require("crypto");
 
 class ProfilePage {
   constructor() {
@@ -107,6 +108,27 @@ class ProfilePage {
     await navData(data);
     return data;
   }
-}
 
+  async sayCheese() {
+    await waitForSelector(this.avatar);
+    const img = await getElementBySelector(this.avatar);
+
+    const imgSrc = await img.getAttribute("src");
+    const imageName = crypto.randomBytes(5).toString("hex");
+
+    const download = require("image-downloader");
+
+    // Download to a directory and save with the original filename
+    const options = {
+      url: imgSrc,
+      dest: "./img" // Save to /path/to/dest/image.jpg
+    };
+    await download
+      .image(options)
+      .then(({ imageName, image }) => {
+        console.log("Saved to", imageName); // Saved to /path/to/dest/image.jpg
+      })
+      .catch(err => console.error(err));
+  }
+}
 module.exports = ProfilePage;
