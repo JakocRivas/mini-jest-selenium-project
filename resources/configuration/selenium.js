@@ -37,6 +37,7 @@ let driver = new Builder()
 
 function quit() {
   driver.quit();
+  // driver.close();
 }
 
 function goTo(url) {

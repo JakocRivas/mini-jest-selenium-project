@@ -23,7 +23,9 @@ class LoginPage {
 
   // Waits for the h1 of the page to be loaded and returns it text
   async waitForHeader(selector) {
+    await waitForSelector(selector);
     const header = await getElementBySelector(selector);
+    // console.log(await header.getText());
     return header.getText();
   }
 

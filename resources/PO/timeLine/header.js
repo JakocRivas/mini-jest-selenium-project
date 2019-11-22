@@ -1,3 +1,3 @@
 module.exports = {
-  home: `#doc div.global-nav div[role="navigation"] li.home span.text`
+  home: `a[data-testid="AppTabBar_Home_Link"] span`
 };

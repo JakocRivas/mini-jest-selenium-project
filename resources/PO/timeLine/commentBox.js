@@ -1,4 +1,4 @@
 module.exports = {
-  commentBox: `#doc .timeline-tweet-box div[name="tweet"] div`,
-  tweetButton: "#doc .timeline-tweet-box .TweetBoxToolbar .tweet-action span"
+  commentBox: `div[data-testid="tweetTextarea_0"]`,
+  tweetButton: `div[data-testid="tweetButtonInline"]`
 };

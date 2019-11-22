@@ -1,3 +1,3 @@
 module.exports = {
-  signUpTitle: "#doc .StaticLoggedOutHomePage-signupTitle"
+  signUpTitle: ".StaticLoggedOutHomePage-signupTitle"
 };

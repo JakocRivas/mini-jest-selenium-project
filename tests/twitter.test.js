@@ -29,7 +29,6 @@ describe("twitter", () => {
     const header = await loginPageInstance.waitForHeader(signUpTitle);
     await expect(header).toBe("See what’s happening in the world right now");
     await loginPageInstance.login(EMAIL, PASSWORD);
-    await goTo("https://twitter.com/css");
   });
 
   afterAll(() => {
@@ -39,7 +38,8 @@ describe("twitter", () => {
 
   it("should wait of the timeline to load", async () => {
     const header = await loginPageInstance.waitForHeader(home);
-    expect(header).toBe("Home");
+    console.log(header);
+    await expect(header).toBe("Home");
   });
 
   it("should post message", async () => {
@@ -55,12 +55,12 @@ describe("twitter", () => {
     await profilePageInstance.search();
   });
 
-  it("should scrape the data of the person that has been searched", async () => {
+  xit("should scrape the data of the person that has been searched", async () => {
     const data = await profilePageInstance.getData();
     console.log(data);
   });
 
-  it("should download avatar", async () => {
+  xit("should download avatar", async () => {
     await profilePageInstance.sayCheese();
   });
 });

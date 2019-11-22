@@ -1,6 +1,5 @@
 module.exports = {
-  searchBar: `#search-query`,
-  searchedPerson:
-    '#doc div[role="search"] div[role="listbox"] li span.username',
+  searchBar: `input[data-testid="SearchBox_Search_Input"]`,
+  searchedPerson: 'div[data-testid="TypeaheadUser"]',
   person: "@css"
 };
