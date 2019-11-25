@@ -62,34 +62,34 @@ class ProfilePage {
 
     const accountData = async object => {
       await waitListOfSelectors([
-        this.name,
-        this.account,
+        // this.name,
+        // this.account,
         this.bio,
         this.location,
         this.personalSite,
         this.joinDate
       ]);
 
-      const personName = await getElementBySelector(this.name).then(text =>
-        text.getText()
-      );
-      const personAccount = await getElementBySelector(this.account).then(
-        text => text.getText()
-      );
+      // const personName = await getElementBySelector(this.name).then(text =>
+      //   text.getText()
+      // );
+      // const personAccount = await getElementBySelector(this.account).then(
+      //   text => text.getText()
+      // );
       const personBio = await getElementBySelector(this.bio).then(text =>
         text.getText()
       );
-      const personLocation = await getElementBySelector(this.location).then(
-        text => text.getText()
-      );
+      const personLocation = await getElementBySelector(
+        this.location
+      ).then(text => text.getText());
       const personPersonalSite = await getElementBySelector(
         this.personalSite
       ).then(text => text.getText());
-      const personJoinDate = await getElementBySelector(this.joinDate).then(
-        text => text.getText()
-      );
-      object["name"] = personName;
-      object["account"] = personAccount;
+      const personJoinDate = await getElementBySelector(
+        this.joinDate
+      ).then(text => text.getText());
+      // object["name"] = personName;
+      // object["account"] = personAccount;
       object["bio"] = personBio;
       object["location"] = personLocation;
       object["site"] = personPersonalSite;
@@ -97,16 +97,16 @@ class ProfilePage {
     };
     await accountData(data);
 
-    const navData = async object => {
-      await waitForSelector(this.navInformation);
-      const numberOfActions = await getListOfSelector(this.navInformation);
-      object["Tweets"] = await numberOfActions[0].getText();
-      object["Following"] = await numberOfActions[1].getText();
-      object["Followers"] = await numberOfActions[2].getText();
-      object["Likes"] = await numberOfActions[3].getText();
-    };
-    await navData(data);
-    return data;
+    //   const navData = async object => {
+    //     await waitForSelector(this.navInformation);
+    //     const numberOfActions = await getListOfSelector(this.navInformation);
+    //     object["Tweets"] = await numberOfActions[0].getText();
+    //     object["Following"] = await numberOfActions[1].getText();
+    //     object["Followers"] = await numberOfActions[2].getText();
+    //     object["Likes"] = await numberOfActions[3].getText();
+    //   };
+    //   await navData(data);
+    //   return data;
   }
 
   async sayCheese() {

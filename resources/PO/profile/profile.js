@@ -1,15 +1,14 @@
+const {person} = require('../search/search')
 module.exports = {
   name:
     "#page-container .AppContainer .ProfileHeaderCard .ProfileHeaderCard-name a",
   account:
     "#page-container .AppContainer .ProfileSidebar .ProfileHeaderCard-screenname span",
-  bio: "#page-container .AppContainer .ProfileSidebar .ProfileHeaderCard-bio",
-  location:
-    "#page-container .AppContainer .ProfileSidebar .ProfileHeaderCard-location",
-  personalSite:
-    "#page-container .AppContainer .ProfileSidebar .ProfileHeaderCard-url",
-  joinDate:
-    "#page-container .AppContainer .ProfileSidebar .ProfileHeaderCard-joinDate",
+  bio: `div[data-testid="UserDescription"]`,
+  location: `div[data-testid="UserProfileHeader_Items"] span`,
+  personalSite: `div[data-testid="UserProfileHeader_Items"] a`,
+  joinDate: `div[data-testid="UserProfileHeader_Items"] span:nth-child(3)`,
   navInformation: `#page-outer  .AppContainer .ProfileCanopy-nav div[role="navigation"].ProfileNav span.ProfileNav-value`,
   avatar: "img.ProfileAvatar-image"
+  avatar: `div[data-testid="primaryColumn"] a[href="/${person}/photo"] img`
 };
