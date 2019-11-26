@@ -42,22 +42,23 @@ describe("twitter", () => {
     await expect(header).toBe("Home");
   });
 
-  it("should post message", async () => {
+  xit("should post message", async () => {
     await timelineInstance.postMessage();
   });
 
-  it("should delete message", async () => {
+  xit("should delete message", async () => {
     await timelineInstance.deleteMessage();
   });
 
   it("if an user was searched", async () => {
     await waitFor(15000);
     await profilePageInstance.search();
+    await waitFor(15000);
   });
 
-  xit("should scrape the data of the person that has been searched", async () => {
+  it("should scrape the data of the person that has been searched", async () => {
     const data = await profilePageInstance.getData();
-    console.log(data);
+    console.log(await data);
   });
 
   xit("should download avatar", async () => {

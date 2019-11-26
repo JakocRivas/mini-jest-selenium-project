@@ -11,6 +11,7 @@ const {
  * @param {string} selector
  */
 async function waitAndClickSelector(selector) {
+  // await mouseOver(selector);
   await getElementBySelector(selector).then(element => element.click());
 }
 
@@ -21,11 +22,11 @@ async function TypeOnSelector(selector, string) {
   );
 }
 async function waitListOfSelectors(arr) {
-      await Promise.all(
-        arr.map(item => {
-          return waitForSelector(item);
-        })
-      )
+  await Promise.all(
+    arr.map(item => {
+      return waitForSelector(item);
+    })
+  );
 }
 
 module.exports = { waitAndClickSelector, TypeOnSelector, waitListOfSelectors };

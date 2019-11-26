@@ -24,7 +24,7 @@ let caps = new Capabilities(),
   ChromeOptions = new chrome.Options();
 // ChromeOptions.headless();
 ChromeOptions.addArguments([
-  "incognito",
+  "--incognito",
   "--lang=en-GB",
   // "headless",
   "--start-maximized"
@@ -163,6 +163,10 @@ function waitFor(a = waitUntilTime) {
 function refresh() {
   driver.navigate().refresh();
 }
+async function pressEnter(selector) {
+  const element = await getElementBySelector(selector);
+  await element.sendKeys(Key.RETURN);
+}
 
 // async function alertHandler(element) {
 //   const wait = await new WebDriverWait(driver, new TimeSpan(0, 0, 30));
@@ -195,5 +199,6 @@ module.exports = {
   waitFor,
   loadPage,
   refresh,
-  awaitIt
+  awaitIt,
+  pressEnter
 };

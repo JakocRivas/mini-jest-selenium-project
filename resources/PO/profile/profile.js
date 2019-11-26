@@ -1,4 +1,4 @@
-const {person} = require('../search/search')
+const { person } = require("../search/search");
 module.exports = {
   name:
     "#page-container .AppContainer .ProfileHeaderCard .ProfileHeaderCard-name a",
@@ -9,6 +9,7 @@ module.exports = {
   personalSite: `div[data-testid="UserProfileHeader_Items"] a`,
   joinDate: `div[data-testid="UserProfileHeader_Items"] span:nth-child(3)`,
   navInformation: `#page-outer  .AppContainer .ProfileCanopy-nav div[role="navigation"].ProfileNav span.ProfileNav-value`,
-  avatar: "img.ProfileAvatar-image"
-  avatar: `div[data-testid="primaryColumn"] a[href="/${person}/photo"] img`
+  avatar: `div[data-testid="primaryColumn"] a[href="/${person.slice(
+    1
+  )}/photo"] img`
 };

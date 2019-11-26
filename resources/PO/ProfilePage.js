@@ -1,4 +1,9 @@
-const { searchBar, searchedPerson, person } = require("./search/search"),
+const {
+    searchBar,
+    searchedPerson,
+    person,
+    results
+  } = require("./search/search"),
   {
     name,
     account,
@@ -17,7 +22,9 @@ const { searchBar, searchedPerson, person } = require("./search/search"),
     waitElementClickable,
     waitFor,
     getListOfSelector,
-    refresh
+    refresh,
+    awaitIt,
+    pressEnter
   } = require("../configuration/selenium"),
   {
     waitAndClickSelector,
@@ -40,6 +47,7 @@ class ProfilePage {
     this.joinDate = joinDate;
     this.navInformation = navInformation;
     this.avatar = avatar;
+    this.results = results;
   }
 
   async search() {
@@ -48,13 +56,22 @@ class ProfilePage {
     await waitElementClickable(this.searchBar);
 
     await waitAndClickSelector(this.searchBar);
-    await TypeOnSelector(this.searchBar, person);
+    await TypeOnSelector(this.searchBar, this.person);
     await waitAndClickSelector(this.searchBar);
+
+    await pressEnter(this.searchBar);
+
+    // await waitForSelector(this.results);
+    // await waitElementClickable(this.results);
+    // await waitAndClickSelector(this.results);
 
     await waitForSelector(this.searchedPerson);
     await waitElementClickable(this.searchedPerson);
 
     await waitAndClickSelector(this.searchedPerson);
+    // await getElementBySelector(this.searchedPerson).then(elem => {
+    //   elem.click();
+    // });
   }
 
   async getData() {
@@ -106,7 +123,7 @@ class ProfilePage {
     //     object["Likes"] = await numberOfActions[3].getText();
     //   };
     //   await navData(data);
-    //   return data;
+    return data;
   }
 
   async sayCheese() {
