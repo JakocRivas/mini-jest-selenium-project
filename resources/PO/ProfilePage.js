@@ -16,14 +16,9 @@ const {
   } = require("./profile/profile"),
   {
     getElementBySelector,
-    waitForElement,
-    getWebElement,
     waitForSelector,
     waitElementClickable,
-    waitFor,
-    getListOfSelector,
     refresh,
-    awaitIt,
     pressEnter
   } = require("../configuration/selenium"),
   {
@@ -31,7 +26,7 @@ const {
     TypeOnSelector,
     waitListOfSelectors
   } = require("../helpers/helper");
-var crypto = require("crypto");
+const crypto = require("crypto");
 
 class ProfilePage {
   constructor() {
@@ -61,17 +56,10 @@ class ProfilePage {
 
     await pressEnter(this.searchBar);
 
-    // await waitForSelector(this.results);
-    // await waitElementClickable(this.results);
-    // await waitAndClickSelector(this.results);
-
     await waitForSelector(this.searchedPerson);
     await waitElementClickable(this.searchedPerson);
 
     await waitAndClickSelector(this.searchedPerson);
-    // await getElementBySelector(this.searchedPerson).then(elem => {
-    //   elem.click();
-    // });
   }
 
   async getData() {
@@ -130,22 +118,25 @@ class ProfilePage {
     await waitForSelector(this.avatar);
     const img = await getElementBySelector(this.avatar);
 
-    const imgSrc = await img.getAttribute("src");
+    const imgSrc = await img
+      .getAttribute("style")
+      .then(src => src.slice(22, -2));
+
     const imageName = crypto.randomBytes(5).toString("hex");
 
     const download = require("image-downloader");
 
     // Download to a directory and save with the original filename
     const options = {
-      url: imgSrc,
+      url: imgSrc.slice(1, -1),
       dest: "./img" // Save to /path/to/dest/image.jpg
     };
     await download
       .image(options)
-      .then(({ imageName, image }) => {
-        console.log("Saved to", imageName); // Saved to /path/to/dest/image.jpg
-      })
-      .catch(err => console.error(err));
+      .then(({ imageName }) => {
+        console.log("Saved to", `./img/${imageName}.jpg`); // Saved to /path/to/dest/image.jpg
+      }, imageName)
+      .catch(err => console.error(err, imageName));
   }
 }
 module.exports = ProfilePage;

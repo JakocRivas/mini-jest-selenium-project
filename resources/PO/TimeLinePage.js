@@ -9,13 +9,9 @@ const { commentBox, tweetButton } = require("./timeLine/commentBox"),
     alertDeleted
   } = require("./timeLine/comment"),
   {
-    getElementBySelector,
-    waitForElement,
-    getWebElement,
     waitForSelector,
     waitElementClickable,
-    waitFor,
-    alertHandler
+    waitFor
   } = require("../configuration/selenium"),
   { waitAndClickSelector, TypeOnSelector } = require("../helpers/helper");
 
@@ -54,6 +50,7 @@ class Timeline {
     await waitAndClickSelector(this.modalDelete);
 
     await waitForSelector(this.alertDeleted);
+    await waitFor(5000);
   }
 }
 module.exports = Timeline;

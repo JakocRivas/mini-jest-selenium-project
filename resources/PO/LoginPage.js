@@ -4,8 +4,6 @@ const { signUpTitle } = require("./login/header"),
   { home } = require("./timeLine/header"),
   {
     getElementBySelector,
-    waitForElement,
-    getWebElement,
     waitForSelector
   } = require("../configuration/selenium"),
   { waitAndClickSelector, TypeOnSelector } = require("../helpers/helper");
@@ -25,7 +23,6 @@ class LoginPage {
   async waitForHeader(selector) {
     await waitForSelector(selector);
     const header = await getElementBySelector(selector);
-    // console.log(await header.getText());
     return header.getText();
   }
 

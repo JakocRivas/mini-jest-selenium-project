@@ -23,24 +23,32 @@ const webdriver = require("selenium-webdriver"),
 let caps = new Capabilities(),
   ChromeOptions = new chrome.Options();
 // ChromeOptions.headless();
+caps.setPageLoadStrategy("eager");
 ChromeOptions.addArguments([
   "--incognito",
   "--lang=en-GB",
   // "headless",
-  "--start-maximized"
+  "--start-maximized",
+  "--ignore-certificate-errors-spki-list",
+  "--ignore-ssl-errors",
+  "--page-load-strategy-normal",
+  "--standalone"
 ]);
 
-let driver = new Builder()
-  .forBrowser(SELENIUM_BROWSER)
-  .setChromeOptions(ChromeOptions)
-  .build();
-
+let driver;
+function newDriver() {
+  driver = new Builder()
+    .forBrowser(SELENIUM_BROWSER)
+    .setChromeOptions(ChromeOptions)
+    .build();
+}
 function quit() {
   driver.quit();
-  // driver.close();
+  driver.close();
 }
 
 function goTo(url) {
+  newDriver();
   driver.get(url);
 }
 
@@ -116,6 +124,16 @@ async function waitForElement(selector) {
   return element;
 }
 
+async function waitForVisibleElement(selector) {
+  await waitForSelector(selector);
+  const element = driver.wait(
+    until.isElementPresent(driver.findElement(By.css(selector))),
+    waitUntilTime
+  );
+
+  return element;
+}
+
 /**
  * waits only for the selector to be located on the page and does not returns it
  *
@@ -151,6 +169,23 @@ async function getWebElement(selector) {
   await waitForElement(webElement);
 
   return webElement;
+}
+
+async function checkElement(selector) {
+  while (document.querySelector(selector) === null) {
+    await new Promise(resolve => window.requestAnimationFrame(resolve));
+  }
+
+  return document.querySelector(selector);
+}
+
+async function getElementByJs(selector) {
+  const element = await driver.findElement(
+    By.js(() => {
+      driver.executeScript(`document.querySelector("${selector}")`);
+    })
+  );
+  return element;
 }
 
 async function getTitle() {
@@ -192,6 +227,7 @@ module.exports = {
   quit,
   goTo,
   getElementBySelector,
+  getElementByJs,
   waitForElement,
   getWebElement,
   waitForSelector,
@@ -200,5 +236,6 @@ module.exports = {
   loadPage,
   refresh,
   awaitIt,
-  pressEnter
+  pressEnter,
+  waitForVisibleElement
 };

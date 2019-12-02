@@ -11,5 +11,5 @@ module.exports = {
   navInformation: `#page-outer  .AppContainer .ProfileCanopy-nav div[role="navigation"].ProfileNav span.ProfileNav-value`,
   avatar: `div[data-testid="primaryColumn"] a[href="/${person.slice(
     1
-  )}/photo"] img`
+  )}/photo"] div div div div`
 };
