@@ -34,21 +34,23 @@ ChromeOptions.addArguments([
   "--page-load-strategy-normal",
   "--standalone"
 ]);
-
 let driver;
-function newDriver() {
-  driver = new Builder()
+
+async function newDriver() {
+  driver = await new Builder()
     .forBrowser(SELENIUM_BROWSER)
     .setChromeOptions(ChromeOptions)
     .build();
-}
-function quit() {
-  driver.quit();
-  driver.close();
+  return driver;
 }
 
-function goTo(url) {
-  newDriver();
+function quit(driver) {
+  console.log(driver, "this is quit");
+  driver.dispose();
+}
+
+function goTo(driver, url) {
+  console.log(driver, "this is go to");
   driver.get(url);
 }
 
@@ -237,5 +239,7 @@ module.exports = {
   refresh,
   awaitIt,
   pressEnter,
-  waitForVisibleElement
+  waitForVisibleElement,
+
+  newDriver
 };

@@ -2,7 +2,12 @@ require("../resources/configuration/env");
 const { EMAIL, PASSWORD, ROOT_URL } = process.env,
   { signUpTitle } = require("../resources/PO/login/header"),
   { home } = require("../resources/PO/timeLine/header"),
-  { quit, goTo } = require("../resources/configuration/selenium");
+  {
+    quit,
+    goTo,
+
+    newDriver
+  } = require("../resources/configuration/selenium");
 
 let LoginPage = require("../resources/PO/LoginPage");
 let Timeline = require("../resources/PO/TimelinePage");
@@ -16,14 +21,15 @@ describe.only("Twitter", () => {
   });
 
   describe("Login Page", () => {
-    beforeAll(() => {
+    beforeAll(async () => {
+      d = await newDriver();
       loginPageInstance = new LoginPage();
-      goTo(ROOT_URL);
+      goTo(d, ROOT_URL);
     });
 
     afterAll(() => {
       console.log("This test suit have been run");
-      quit();
+      quit(d);
     });
 
     it("should wait for the header to load", async () => {
@@ -38,16 +44,16 @@ describe.only("Twitter", () => {
 
   describe("Timeline Page", () => {
     beforeAll(async () => {
+      d = await newDriver();
       timelineInstance = new Timeline();
-
-      goTo(ROOT_URL);
+      goTo(d, ROOT_URL);
       const header = await loginPageInstance.waitForHeader(signUpTitle);
       expect(header).toBe("See what’s happening in the world right now");
     });
 
     afterAll(() => {
       console.log("This test suit have been run");
-      quit();
+      quit(d);
     });
 
     it("should wait of the timeline to load", async () => {
