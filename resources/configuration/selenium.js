@@ -34,34 +34,35 @@ ChromeOptions.addArguments([
   "--page-load-strategy-normal",
   "--standalone"
 ]);
-let driver;
 
 async function newDriver() {
-  driver = await new Builder()
+  let driver = await new Builder()
     .forBrowser(SELENIUM_BROWSER)
     .setChromeOptions(ChromeOptions)
     .build();
   return driver;
 }
 
-function quit(driver) {
-  console.log(driver, "this is quit");
-  driver.dispose();
+async function quit(driver) {
+  // console.log(driver, "this is quit");
+  await driver.close();
+  await driver.quit();
+  console.log(driver.toString());
 }
 
-function goTo(driver, url) {
-  console.log(driver, "this is go to");
-  driver.get(url);
+async function goTo(driver, url) {
+  // console.log(driver, "this is go to");
+  await driver.get(url);
 }
 
-function loadPage() {
+function loadPage(driver) {
   driver.manage().setTimeout({ pageLoad: 15000 });
   // .set
   // .timeouts()
   // .implicitlywait(15, TimeUnit.seconds);
 }
 
-async function getElementByName(name) {
+async function getElementByName(driver, name) {
   return driver
     .findElement(By.name(name))
     .then(element => {
@@ -71,8 +72,8 @@ async function getElementByName(name) {
     .catch(console.error);
 }
 
-async function getElementById(id) {
-  return driver
+async function getElementById(driver, id) {
+  return await driver
     .wait(until.elementLocated(By.id(id)), waitUntilTime)
     .then(element => {
       waitFor(element);
@@ -81,7 +82,7 @@ async function getElementById(id) {
     .catch(console.error);
 }
 
-async function getListOfSelector(selector) {
+async function getListOfSelector(driver, selector) {
   let tags = await driver.wait(
     until.elementsLocated(By.css(selector), waitUntilTime)
   );
@@ -89,27 +90,27 @@ async function getListOfSelector(selector) {
   return tags;
 }
 
-async function getElementByClassName(className) {
+async function getElementByClassName(driver, className) {
   let classes = await driver.wait(
     until.elementsLocated(By.className(className), waitUntilTime)
   );
   return classes;
 }
 
-async function getElementBySelector(selector) {
+async function getElementBySelector(driver, selector) {
   const webElement = await driver.findElement(By.css(selector));
   await waitForElement(webElement);
   return webElement;
 }
 
-async function getElementByXPath(selector) {
+async function getElementByXPath(driver, selector) {
   const webElement = await driver.findElement(By.xpath(selector));
   await waitForElement(webElement);
   return webElement;
 }
 
-async function awaitIt(element) {
-  await driver.wait(until.elementIsVisible(element), waitUntilTime);
+async function awaitIt(driver, element) {
+  return await driver.wait(until.elementIsVisible(element), waitUntilTime);
 }
 
 /**
@@ -118,7 +119,7 @@ async function awaitIt(element) {
  * @param {string} el
  * @returns {webElement} element
  */
-async function waitForElement(selector) {
+async function waitForElement(driver, selector) {
   const element = await driver.wait(
     until.elementIsVisible(selector),
     waitUntilTime
@@ -126,9 +127,9 @@ async function waitForElement(selector) {
   return element;
 }
 
-async function waitForVisibleElement(selector) {
+async function waitForVisibleElement(driver, selector) {
   await waitForSelector(selector);
-  const element = driver.wait(
+  const element = await driver.wait(
     until.isElementPresent(driver.findElement(By.css(selector))),
     waitUntilTime
   );
@@ -141,11 +142,11 @@ async function waitForVisibleElement(selector) {
  *
  * @param {selector} selector a css selector
  */
-async function waitForSelector(selector) {
+async function waitForSelector(driver, selector) {
   await driver.wait(until.elementLocated(By.css(selector), waitUntilTime));
 }
 
-async function waitElementClickable(selector) {
+async function waitElementClickable(driver, selector) {
   const element = await getElementBySelector(selector);
   let visible = await driver.wait(
     until.elementIsVisible(element),
@@ -166,14 +167,14 @@ async function waitElementClickable(selector) {
  * @param {string} selector
  * @returns {webElement}
  */
-async function getWebElement(selector) {
+async function getWebElement(driver, selector) {
   const webElement = await driver.findElement(By.css(selector));
   await waitForElement(webElement);
 
   return webElement;
 }
 
-async function checkElement(selector) {
+async function checkElement(driver, selector) {
   while (document.querySelector(selector) === null) {
     await new Promise(resolve => window.requestAnimationFrame(resolve));
   }
@@ -181,7 +182,7 @@ async function checkElement(selector) {
   return document.querySelector(selector);
 }
 
-async function getElementByJs(selector) {
+async function getElementByJs(driver, selector) {
   const element = await driver.findElement(
     By.js(() => {
       driver.executeScript(`document.querySelector("${selector}")`);
@@ -190,18 +191,18 @@ async function getElementByJs(selector) {
   return element;
 }
 
-async function getTitle() {
+async function getTitle(driver) {
   return await driver.getTitle().then(title => title);
 }
 
-function waitFor(a = waitUntilTime) {
-  driver.sleep(a);
+async function waitFor(driver, a = waitUntilTime) {
+  await driver.sleep(a);
 }
-function refresh() {
-  driver.navigate().refresh();
+async function refresh(driver) {
+  await driver.navigate().refresh();
 }
-async function pressEnter(selector) {
-  const element = await getElementBySelector(selector);
+async function pressEnter(driver, selector) {
+  const element = await getElementBySelector(driver, selector);
   await element.sendKeys(Key.RETURN);
 }
 
@@ -221,7 +222,6 @@ module.exports = {
   By,
   Key,
   until,
-  driver,
   waitUntilTime,
   getListOfSelector,
   getElementByClassName,
@@ -240,6 +240,8 @@ module.exports = {
   awaitIt,
   pressEnter,
   waitForVisibleElement,
-
-  newDriver
+  newDriver,
+  ChromeOptions,
+  SELENIUM_BROWSER,
+  Builder
 };

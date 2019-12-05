@@ -12,9 +12,14 @@ const { EMAIL, PASSWORD, ROOT_URL } = process.env,
 let LoginPage = require("../resources/PO/LoginPage");
 let Timeline = require("../resources/PO/TimelinePage");
 let ProfilePage = require("../resources/PO/ProfilePage");
-
+let d;
 describe.only("Twitter", () => {
+  // beforeEach(() => {
+  loginPageInstance = new LoginPage();
+  timelineInstance = new Timeline();
+
   profilePageInstance = new ProfilePage();
+  // });
 
   afterAll(() => {
     console.log("All test suits have been run");
@@ -23,50 +28,52 @@ describe.only("Twitter", () => {
   describe("Login Page", () => {
     beforeAll(async () => {
       d = await newDriver();
-      loginPageInstance = new LoginPage();
+
       goTo(d, ROOT_URL);
+      console.log(d);
     });
 
-    afterAll(() => {
+    afterAll(async () => {
       console.log("This test suit have been run");
       quit(d);
     });
 
     it("should wait for the header to load", async () => {
-      const header = await loginPageInstance.waitForHeader(signUpTitle);
+      const header = await loginPageInstance.waitForHeader(d, signUpTitle);
       expect(header).toBe("See what’s happening in the world right now");
     });
 
     it("should log in", async () => {
-      await loginPageInstance.login(EMAIL, PASSWORD);
+      await loginPageInstance.login(d, EMAIL, PASSWORD);
     });
   });
 
   describe("Timeline Page", () => {
     beforeAll(async () => {
       d = await newDriver();
-      timelineInstance = new Timeline();
+
       goTo(d, ROOT_URL);
-      const header = await loginPageInstance.waitForHeader(signUpTitle);
+      console.log(d);
+      const header = await loginPageInstance.waitForHeader(d, signUpTitle);
       expect(header).toBe("See what’s happening in the world right now");
     });
 
-    afterAll(() => {
+    afterAll(async () => {
       console.log("This test suit have been run");
-      quit(d);
+      await quit(d);
     });
 
     it("should wait of the timeline to load", async () => {
-      const header = await loginPageInstance.waitForHeader(home);
+      const header = await loginPageInstance.waitForHeader(d, home);
       await expect(header).toBe("Home");
     });
 
     it("should post message", async () => {
-      await timelineInstance.postMessage();
+      await timelineInstance.postMessage(d);
     });
 
     it("should delete message", async () => {
-      await timelineInstance.deleteMessage();
+      await timelineInstance.deleteMessage(d);
     });
   });
   // describe("Profile Page", () => {});

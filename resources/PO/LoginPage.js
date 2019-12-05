@@ -20,21 +20,21 @@ class LoginPage {
   }
 
   // Waits for the h1 of the page to be loaded and returns it text
-  async waitForHeader(selector) {
-    await waitForSelector(selector);
-    const header = await getElementBySelector(selector);
+  async waitForHeader(driver, selector) {
+    await waitForSelector(driver, selector);
+    const header = await getElementBySelector(driver, selector);
     return header.getText();
   }
 
-  async login(email, password) {
-    await waitAndClickSelector(this.homepageLogin);
-    await TypeOnSelector(this.emailField, email);
+  async login(driver, email, password) {
+    await waitAndClickSelector(driver, this.homepageLogin);
+    await TypeOnSelector(driver, this.emailField, email);
 
-    await waitForSelector(this.passwordField);
-    await TypeOnSelector(this.passwordField, password);
+    await waitForSelector(driver, this.passwordField);
+    await TypeOnSelector(driver, this.passwordField, password);
 
-    await waitForSelector(this.loginButton);
-    await waitAndClickSelector(this.loginButton);
+    await waitForSelector(driver, this.loginButton);
+    await waitAndClickSelector(driver, this.loginButton);
   }
 }
 

@@ -10,21 +10,21 @@ const {
  *
  * @param {string} selector
  */
-async function waitAndClickSelector(selector) {
+async function waitAndClickSelector(driver, selector) {
   // await mouseOver(selector);
-  await getElementBySelector(selector).then(element => element.click());
+  await getElementBySelector(driver, selector).then(element => element.click());
 }
 
-async function TypeOnSelector(selector, string) {
-  await waitForSelector(selector);
-  await getElementBySelector(selector).then(element =>
+async function TypeOnSelector(driver, selector, string) {
+  await waitForSelector(driver, selector);
+  await getElementBySelector(driver, selector).then(element =>
     element.sendKeys(string)
   );
 }
-async function waitListOfSelectors(arr) {
+async function waitListOfSelectors(driver, arr) {
   await Promise.all(
     arr.map(item => {
-      return waitForSelector(item);
+      return waitForSelector(driver, item);
     })
   );
 }
