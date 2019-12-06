@@ -12,14 +12,14 @@ const {
  */
 async function waitAndClickSelector(driver, selector) {
   // await mouseOver(selector);
-  await getElementBySelector(driver, selector).then(element => element.click());
+  await driver.getElementBySelector(selector).then(element => element.click());
 }
 
 async function TypeOnSelector(driver, selector, string) {
-  await waitForSelector(driver, selector);
-  await getElementBySelector(driver, selector).then(element =>
-    element.sendKeys(string)
-  );
+  await driver.waitForSelector(selector);
+  await driver
+    .getElementBySelector(selector)
+    .then(element => element.sendKeys(string));
 }
 async function waitListOfSelectors(driver, arr) {
   await Promise.all(

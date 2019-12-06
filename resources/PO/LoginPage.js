@@ -4,8 +4,7 @@ const { signUpTitle } = require("./login/header"),
   { home } = require("./timeLine/header"),
   {
     getElementBySelector,
-    waitForSelector,
-    newDriver
+    waitForSelector
   } = require("../configuration/selenium"),
   { waitAndClickSelector, TypeOnSelector } = require("../helpers/helper");
 class LoginPage {
@@ -23,8 +22,8 @@ class LoginPage {
   // Waits for the h1 of the page to be loaded and returns it text
   async waitForHeader(selector) {
     // driver = await driver;
-    await waitForSelector(this.driver, selector);
-    const header = await getElementBySelector(this.driver, selector);
+    await this.driver.waitForSelector(selector);
+    const header = await this.driver.getElementBySelector(selector);
     return header.getText();
   }
 
@@ -34,10 +33,10 @@ class LoginPage {
     await waitAndClickSelector(this.driver, this.homepageLogin);
     await TypeOnSelector(this.driver, this.emailField, email);
 
-    await waitForSelector(this.driver, this.passwordField);
+    await this.driver.waitForSelector(this.driver, this.passwordField);
     await TypeOnSelector(this.driver, this.passwordField, password);
 
-    await waitForSelector(this.driver, this.loginButton);
+    await this.driver.waitForSelector(this.driver, this.loginButton);
     await waitAndClickSelector(this.driver, this.loginButton);
   }
 }

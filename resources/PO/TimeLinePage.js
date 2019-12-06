@@ -11,11 +11,9 @@ const { commentBox, tweetButton } = require("./timeLine/commentBox"),
   {
     waitForSelector,
     waitElementClickable,
-    waitFor,
-    newDriver
+    waitFor
   } = require("../configuration/selenium"),
   { waitAndClickSelector, TypeOnSelector } = require("../helpers/helper");
-let driver = newDriver();
 class Timeline {
   constructor(driver) {
     this.commentBox = commentBox;

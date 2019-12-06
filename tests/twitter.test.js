@@ -3,7 +3,7 @@ const { EMAIL, PASSWORD, ROOT_URL } = process.env,
   { signUpTitle } = require("../resources/PO/login/header"),
   { home } = require("../resources/PO/timeLine/header");
 
-let driver = require("../resources/configuration/selenium"),
+let Driver = require("../resources/configuration/selenium"),
   LoginPage = require("../resources/PO/LoginPage"),
   Timeline = require("../resources/PO/TimelinePage"),
   ProfilePage = require("../resources/PO/ProfilePage");
@@ -21,60 +21,55 @@ describe.only("Twitter", () => {
   });
 
   describe.only("Login Page", () => {
+    const driver = new Driver();
+    let loginPageInstance = new LoginPage(driver);
+
     beforeAll(async () => {
-      let loginPageInstance = new LoginPage(d);
       console.log(await loginPageInstance);
-      goTo(loginPageInstance.driver, ROOT_URL);
+      driver.goTo(ROOT_URL);
     });
 
     afterAll(async () => {
       console.log("This test suit have been run");
-      quit(loginPageInstance.driver);
+      driver.quit();
     });
 
     it("should wait for the header to load", async () => {
-      console.log(await loginPageInstance);
-
-      const header = await loginPageInstance.waitForHeader(
-        loginPageInstance.driver,
-        signUpTitle
-      );
+      const header = await loginPageInstance.waitForHeader(signUpTitle);
       expect(header).toBe("See what’s happening in the world right now");
     });
 
     it("should log in", async () => {
-      console.log(loginPageInstance.driver);
-
-      await loginPageInstance.login(loginPageInstance.driver, EMAIL, PASSWORD);
+      await loginPageInstance.login(EMAIL, PASSWORD);
     });
   });
 
-  describe("Timeline Page", () => {
-    beforeAll(async () => {
-      goTo(ROOT_URL);
-      console.log(d);
-      const header = await loginPageInstance.waitForHeader(d, signUpTitle);
-      expect(header).toBe("See what’s happening in the world right now");
-    });
+  // describe("Timeline Page", () => {
+  //   beforeAll(async () => {
+  //     goTo(ROOT_URL);
+  //     console.log(d);
+  //     const header = await loginPageInstance.waitForHeader(d, signUpTitle);
+  //     expect(header).toBe("See what’s happening in the world right now");
+  //   });
 
-    afterAll(async () => {
-      console.log("This test suit have been run");
-      await quit();
-    });
+  //   afterAll(async () => {
+  //     console.log("This test suit have been run");
+  //     await quit();
+  //   });
 
-    it("should wait of the timeline to load", async () => {
-      const header = await loginPageInstance.waitForHeader(d, home);
-      await expect(header).toBe("Home");
-    });
+  //   it("should wait of the timeline to load", async () => {
+  //     const header = await loginPageInstance.waitForHeader(d, home);
+  //     await expect(header).toBe("Home");
+  //   });
 
-    it("should post message", async () => {
-      await timelineInstance.postMessage(d);
-    });
+  //   it("should post message", async () => {
+  //     await timelineInstance.postMessage(d);
+  //   });
 
-    it("should delete message", async () => {
-      await timelineInstance.deleteMessage(d);
-    });
-  });
+  //   it("should delete message", async () => {
+  //     await timelineInstance.deleteMessage(d);
+  //   });
+  // });
   // describe("Profile Page", () => {});
 });
 

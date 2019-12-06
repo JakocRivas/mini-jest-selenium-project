@@ -41,7 +41,6 @@ class Driver {
       .forBrowser(SELENIUM_BROWSER)
       .setChromeOptions(ChromeOptions)
       .build();
-    return d;
   }
 
   async quit() {
@@ -50,164 +49,167 @@ class Driver {
     await this.driver.quit();
     // console.log(driver.toString());
   }
-}
 
-async function goTo(url) {
-  // console.log(driver, "this is go to");
-  await driver.get(url);
-}
+  /**
+   * Waits for the web element of the selector to be visible and returns it
+   *
+   * @param {string} el
+   * @returns {webElement} element
+   */
+  async waitForElement(selector) {
+    return await this.driver.wait(
+      until.elementIsVisible(selector),
+      waitUntilTime
+    );
+  }
 
-function loadPage(driver) {
-  driver.manage().setTimeout({ pageLoad: 15000 });
-  // .set
-  // .timeouts()
-  // .implicitlywait(15, TimeUnit.seconds);
-}
+  async getElementBySelector(selector) {
+    const webElement = await this.driver.findElement(By.css(selector));
+    await this.waitForElement(webElement);
+    return webElement;
+  }
 
-async function getElementByName(driver, name) {
-  return driver
-    .findElement(By.name(name))
-    .then(element => {
-      waitForElement(element);
-      return element;
-    })
-    .catch(console.error);
-}
+  async goTo(url) {
+    // console.log(driver, "this is go to");
+    await this.driver.get(url);
+  }
 
-async function getElementById(driver, id) {
-  return await driver
-    .wait(until.elementLocated(By.id(id)), waitUntilTime)
-    .then(element => {
-      waitFor(element);
-      return element;
-    })
-    .catch(console.error);
-}
+  loadPage(driver) {
+    this.driver.manage().setTimeout({ pageLoad: 15000 });
+    // .set
+    // .timeouts()
+    // .implicitlywait(15, TimeUnit.seconds);
+  }
 
-async function getListOfSelector(driver, selector) {
-  let tags = await driver.wait(
-    until.elementsLocated(By.css(selector), waitUntilTime)
-  );
+  async getElementByName(name) {
+    return this.driver
+      .findElement(By.name(name))
+      .then(element => {
+        waitForElement(element);
+        return element;
+      })
+      .catch(console.error);
+  }
 
-  return tags;
-}
+  async getElementById(id) {
+    return await this.driver
+      .wait(until.elementLocated(By.id(id)), waitUntilTime)
+      .then(element => {
+        waitFor(element);
+        return element;
+      })
+      .catch(console.error);
+  }
 
-async function getElementByClassName(driver, className) {
-  let classes = await driver.wait(
-    until.elementsLocated(By.className(className), waitUntilTime)
-  );
-  return classes;
-}
+  async getListOfSelector(selector) {
+    let tags = await this.driver.wait(
+      until.elementsLocated(By.css(selector), waitUntilTime)
+    );
 
-async function getElementBySelector(driver, selector) {
-  const webElement = await driver.findElement(By.css(selector));
-  await waitForElement(webElement);
-  return webElement;
-}
+    return tags;
+  }
 
-async function getElementByXPath(driver, selector) {
-  const webElement = await driver.findElement(By.xpath(selector));
-  await waitForElement(webElement);
-  return webElement;
-}
+  async getElementByClassName(className) {
+    let classes = await this.driver.wait(
+      until.elementsLocated(By.className(className), waitUntilTime)
+    );
+    return classes;
+  }
 
-async function awaitIt(driver, element) {
-  return await driver.wait(until.elementIsVisible(element), waitUntilTime);
-}
+  async getElementByXPath(selector) {
+    const webElement = await this.driver.findElement(By.xpath(selector));
+    await waitForElement(webElement);
+    return webElement;
+  }
 
-/**
- * Waits for the web element of the selector to be visible and returns it
- *
- * @param {string} el
- * @returns {webElement} element
- */
-async function waitForElement(driver, selector) {
-  const element = await driver.wait(
-    until.elementIsVisible(selector),
-    waitUntilTime
-  );
-  return element;
-}
+  async awaitIt(element) {
+    return await this.driver.wait(
+      until.elementIsVisible(element),
+      waitUntilTime
+    );
+  }
 
-async function waitForVisibleElement(driver, selector) {
-  await waitForSelector(selector);
-  const element = await driver.wait(
-    until.isElementPresent(driver.findElement(By.css(selector))),
-    waitUntilTime
-  );
+  async waitForVisibleElement(selector) {
+    await this.waitForSelector(selector);
+    const element = await this.driver.wait(
+      until.isElementPresent(this.driver.findElement(By.css(selector))),
+      waitUntilTime
+    );
 
-  return element;
-}
-
-/**
- * waits only for the selector to be located on the page and does not returns it
- *
- * @param {selector} selector a css selector
- */
-async function waitForSelector(driver, selector) {
-  await driver.wait(until.elementLocated(By.css(selector), waitUntilTime));
-}
-
-async function waitElementClickable(driver, selector) {
-  const element = await getElementBySelector(selector);
-  let visible = await driver.wait(
-    until.elementIsVisible(element),
-    waitUntilTime
-  );
-  let enabled = await driver.wait(
-    until.elementIsEnabled(element),
-    waitUntilTime
-  );
-  if (visible && enabled) {
     return element;
   }
-}
 
-/**
- * Finds the web element of the selector and returns it
- *
- * @param {string} selector
- * @returns {webElement}
- */
-async function getWebElement(driver, selector) {
-  const webElement = await driver.findElement(By.css(selector));
-  await waitForElement(webElement);
-
-  return webElement;
-}
-
-async function checkElement(driver, selector) {
-  while (document.querySelector(selector) === null) {
-    await new Promise(resolve => window.requestAnimationFrame(resolve));
+  /**
+   * waits only for the selector to be located on the page and does not returns it
+   *
+   * @param {selector} selector a css selector
+   */
+  async waitForSelector(selector) {
+    await this.driver.wait(
+      until.elementLocated(By.css(selector), waitUntilTime)
+    );
   }
 
-  return document.querySelector(selector);
-}
+  async waitElementClickable(selector) {
+    const element = await this.getElementBySelector(selector);
+    let visible = await this.driver.wait(
+      until.elementIsVisible(element),
+      waitUntilTime
+    );
+    let enabled = await this.driver.wait(
+      until.elementIsEnabled(element),
+      waitUntilTime
+    );
+    if (visible && enabled) {
+      return element;
+    }
+  }
 
-async function getElementByJs(driver, selector) {
-  const element = await driver.findElement(
-    By.js(() => {
-      driver.executeScript(`document.querySelector("${selector}")`);
-    })
-  );
-  return element;
-}
+  /**
+   * Finds the web element of the selector and returns it
+   *
+   * @param {string} selector
+   * @returns {webElement}
+   */
+  async getWebElement(selector) {
+    const webElement = await this.driver.findElement(By.css(selector));
+    await this.waitForElement(webElement);
 
-async function getTitle(driver) {
-  return await driver.getTitle().then(title => title);
-}
+    return webElement;
+  }
 
-async function waitFor(driver, a = waitUntilTime) {
-  await driver.sleep(a);
-}
-async function refresh(driver) {
-  await driver.navigate().refresh();
-}
-async function pressEnter(driver, selector) {
-  const element = await getElementBySelector(driver, selector);
-  await element.sendKeys(Key.RETURN);
-}
+  async checkElement(selector) {
+    while (document.querySelector(selector) === null) {
+      await new Promise(resolve => window.requestAnimationFrame(resolve));
+    }
 
+    return document.querySelector(selector);
+  }
+
+  async getElementByJs(selector) {
+    const element = await this.driver.findElement(
+      By.js(() => {
+        this.driver.executeScript(`document.querySelector("${selector}")`);
+      })
+    );
+    return element;
+  }
+
+  async getTitle() {
+    return await this.driver.getTitle().then(title => title);
+  }
+
+  async waitFor(a = waitUntilTime) {
+    await this.driver.sleep(a);
+  }
+  async refresh() {
+    await this.driver.navigate().refresh();
+  }
+  async pressEnter(selector) {
+    const element = await this.getElementBySelector(selector);
+    await element.sendKeys(Key.RETURN);
+  }
+}
 // async function alertHandler(element) {
 //   const wait = await new WebDriverWait(driver, new TimeSpan(0, 0, 30));
 //   await wait.until(
