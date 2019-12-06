@@ -4,12 +4,12 @@ const { signUpTitle } = require("./login/header"),
   { home } = require("./timeLine/header"),
   {
     getElementBySelector,
-    waitForSelector
+    waitForSelector,
+    newDriver
   } = require("../configuration/selenium"),
   { waitAndClickSelector, TypeOnSelector } = require("../helpers/helper");
-
 class LoginPage {
-  constructor() {
+  constructor(driver) {
     this.header = signUpTitle;
     this.emailField = emailField;
     this.passwordField = passwordField;
@@ -17,24 +17,28 @@ class LoginPage {
     this.credentialsLogin = credentialsLogin;
     this.loginButton = loginButton;
     this.timelineHome = home;
+    this.driver = driver;
   }
 
   // Waits for the h1 of the page to be loaded and returns it text
-  async waitForHeader(driver, selector) {
-    await waitForSelector(driver, selector);
-    const header = await getElementBySelector(driver, selector);
+  async waitForHeader(selector) {
+    // driver = await driver;
+    await waitForSelector(this.driver, selector);
+    const header = await getElementBySelector(this.driver, selector);
     return header.getText();
   }
 
-  async login(driver, email, password) {
-    await waitAndClickSelector(driver, this.homepageLogin);
-    await TypeOnSelector(driver, this.emailField, email);
+  async login(email, password) {
+    // driver = await driver;
 
-    await waitForSelector(driver, this.passwordField);
-    await TypeOnSelector(driver, this.passwordField, password);
+    await waitAndClickSelector(this.driver, this.homepageLogin);
+    await TypeOnSelector(this.driver, this.emailField, email);
 
-    await waitForSelector(driver, this.loginButton);
-    await waitAndClickSelector(driver, this.loginButton);
+    await waitForSelector(this.driver, this.passwordField);
+    await TypeOnSelector(this.driver, this.passwordField, password);
+
+    await waitForSelector(this.driver, this.loginButton);
+    await waitAndClickSelector(this.driver, this.loginButton);
   }
 }
 

@@ -11,12 +11,13 @@ const { commentBox, tweetButton } = require("./timeLine/commentBox"),
   {
     waitForSelector,
     waitElementClickable,
-    waitFor
+    waitFor,
+    newDriver
   } = require("../configuration/selenium"),
   { waitAndClickSelector, TypeOnSelector } = require("../helpers/helper");
-
+let driver = newDriver();
 class Timeline {
-  constructor() {
+  constructor(driver) {
     this.commentBox = commentBox;
     this.tweetButton = tweetButton;
     this.dropdown = dropdown;
@@ -24,33 +25,34 @@ class Timeline {
     this.modalDelete = modalDelete;
     this.timelineComment = timelineComment;
     this.alertDeleted = alertDeleted;
+    this.driver = driver;
   }
 
-  async postMessage(driver) {
-    await waitForSelector(driver, this.commentBox);
+  async postMessage() {
+    await waitForSelector(this.driver, this.commentBox);
     let comment = crypto.randomBytes(20).toString("hex");
 
-    await waitAndClickSelector(driver, this.commentBox);
-    await TypeOnSelector(driver, this.commentBox, comment);
-    const btn = await waitElementClickable(driver, this.tweetButton);
+    await waitAndClickSelector(this.driver, this.commentBox);
+    await TypeOnSelector(this.driver, this.commentBox, comment);
+    const btn = await waitElementClickable(this.driver, this.tweetButton);
     await btn.click();
 
-    await waitForSelector(driver, this.timelineComment);
-    await waitElementClickable(driver, this.timelineComment);
-    await waitForSelector(driver, timelineComment);
+    await waitForSelector(this.driver, this.timelineComment);
+    await waitElementClickable(this.driver, this.timelineComment);
+    await waitForSelector(this.driver, timelineComment);
 
-    await waitForSelector(driver, this.dropdown);
+    await waitForSelector(this.driver, this.dropdown);
   }
 
-  async deleteMessage(driver) {
-    await waitAndClickSelector(driver, this.dropdown);
-    await waitAndClickSelector(driver, this.dropdownDelete);
+  async deleteMessage() {
+    await waitAndClickSelector(this.driver, this.dropdown);
+    await waitAndClickSelector(this.driver, this.dropdownDelete);
 
-    await waitElementClickable(driver, this.modalDelete);
-    await waitAndClickSelector(driver, this.modalDelete);
+    await waitElementClickable(this.driver, this.modalDelete);
+    await waitAndClickSelector(this.driver, this.modalDelete);
 
-    await waitForSelector(driver, this.alertDeleted);
-    await waitFor(driver, 5000);
+    await waitForSelector(this.driver, this.alertDeleted);
+    await waitFor(this.driver, 5000);
   }
 }
 module.exports = Timeline;

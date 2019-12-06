@@ -12,47 +12,52 @@ const { EMAIL, PASSWORD, ROOT_URL } = process.env,
 let LoginPage = require("../resources/PO/LoginPage");
 let Timeline = require("../resources/PO/TimelinePage");
 let ProfilePage = require("../resources/PO/ProfilePage");
-let d;
 describe.only("Twitter", () => {
   // beforeEach(() => {
-  loginPageInstance = new LoginPage();
-  timelineInstance = new Timeline();
+  // loginPageInstance = new LoginPage();
+  // timelineInstance = new Timeline();
 
-  profilePageInstance = new ProfilePage();
+  // profilePageInstance = new ProfilePage();
   // });
 
   afterAll(() => {
     console.log("All test suits have been run");
   });
 
-  describe("Login Page", () => {
+  describe.only("Login Page", () => {
     beforeAll(async () => {
-      d = await newDriver();
+      let d = await newDriver();
 
-      goTo(d, ROOT_URL);
-      console.log(d);
+      let loginPageInstance = new LoginPage(d);
+      console.log(await loginPageInstance);
+      goTo(loginPageInstance.driver, ROOT_URL);
     });
 
     afterAll(async () => {
       console.log("This test suit have been run");
-      quit(d);
+      quit(loginPageInstance.driver);
     });
 
     it("should wait for the header to load", async () => {
-      const header = await loginPageInstance.waitForHeader(d, signUpTitle);
+      console.log(await loginPageInstance);
+
+      const header = await loginPageInstance.waitForHeader(
+        loginPageInstance.driver,
+        signUpTitle
+      );
       expect(header).toBe("See what’s happening in the world right now");
     });
 
     it("should log in", async () => {
-      await loginPageInstance.login(d, EMAIL, PASSWORD);
+      console.log(loginPageInstance.driver);
+
+      await loginPageInstance.login(loginPageInstance.driver, EMAIL, PASSWORD);
     });
   });
 
   describe("Timeline Page", () => {
     beforeAll(async () => {
-      d = await newDriver();
-
-      goTo(d, ROOT_URL);
+      goTo(ROOT_URL);
       console.log(d);
       const header = await loginPageInstance.waitForHeader(d, signUpTitle);
       expect(header).toBe("See what’s happening in the world right now");
@@ -60,7 +65,7 @@ describe.only("Twitter", () => {
 
     afterAll(async () => {
       console.log("This test suit have been run");
-      await quit(d);
+      await quit();
     });
 
     it("should wait of the timeline to load", async () => {
