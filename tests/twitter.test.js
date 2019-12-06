@@ -12,7 +12,6 @@ const { EMAIL, PASSWORD, ROOT_URL } = process.env,
 let LoginPage = require("../resources/PO/LoginPage");
 let Timeline = require("../resources/PO/TimelinePage");
 let ProfilePage = require("../resources/PO/ProfilePage");
-let d;
 describe.only("Twitter", () => {
   // beforeEach(() => {
   loginPageInstance = new LoginPage();
@@ -27,9 +26,8 @@ describe.only("Twitter", () => {
 
   describe("Login Page", () => {
     beforeAll(async () => {
-      d = await newDriver();
-
-      goTo(d, ROOT_URL);
+      newDriver();
+      goTo(ROOT_URL);
       console.log(d);
     });
 
