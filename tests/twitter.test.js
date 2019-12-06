@@ -26,11 +26,22 @@ describe.only("Twitter", () => {
 
   describe.only("Login Page", () => {
     beforeAll(async () => {
+<<<<<<< HEAD
       let d = await newDriver();
 
       let loginPageInstance = new LoginPage(d);
       console.log(await loginPageInstance);
       goTo(loginPageInstance.driver, ROOT_URL);
+||||||| merged common ancestors
+      d = await newDriver();
+
+      goTo(d, ROOT_URL);
+      console.log(d);
+=======
+      newDriver();
+      goTo(ROOT_URL);
+      console.log(d);
+>>>>>>> 61693f4a94511415f0987d837c6029e2a9a7f9f9
     });
 
     afterAll(async () => {
