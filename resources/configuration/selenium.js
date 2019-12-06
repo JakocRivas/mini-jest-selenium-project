@@ -34,21 +34,22 @@ ChromeOptions.addArguments([
   "--page-load-strategy-normal",
   "--standalone"
 ]);
-let driver;
 
-async function newDriver() {
-  let d = new Builder()
-    .forBrowser(SELENIUM_BROWSER)
-    .setChromeOptions(ChromeOptions)
-    .build();
-  return (driver = d);
-}
+class Driver {
+  constructor() {
+    this.driver = new Builder()
+      .forBrowser(SELENIUM_BROWSER)
+      .setChromeOptions(ChromeOptions)
+      .build();
+    return d;
+  }
 
-async function quit(driver) {
-  // console.log(driver, "this is quit");
-  await driver.close();
-  await driver.quit();
-  // console.log(driver.toString());
+  async quit() {
+    // console.log(driver, "this is quit");
+    await this.driver.close();
+    await this.driver.quit();
+    // console.log(driver.toString());
+  }
 }
 
 async function goTo(url) {
@@ -216,33 +217,4 @@ async function pressEnter(driver, selector) {
 //   );
 // }
 
-module.exports = {
-  getTitle,
-  getElementByName,
-  Builder,
-  By,
-  Key,
-  until,
-  waitUntilTime,
-  getListOfSelector,
-  getElementByClassName,
-  getElementByXPath,
-  quit,
-  goTo,
-  getElementBySelector,
-  getElementByJs,
-  waitForElement,
-  getWebElement,
-  waitForSelector,
-  waitElementClickable,
-  waitFor,
-  loadPage,
-  refresh,
-  awaitIt,
-  pressEnter,
-  waitForVisibleElement,
-  newDriver,
-  ChromeOptions,
-  SELENIUM_BROWSER,
-  Builder
-};
+module.exports = Driver;

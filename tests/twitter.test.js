@@ -1,17 +1,13 @@
 require("../resources/configuration/env");
 const { EMAIL, PASSWORD, ROOT_URL } = process.env,
   { signUpTitle } = require("../resources/PO/login/header"),
-  { home } = require("../resources/PO/timeLine/header"),
-  {
-    quit,
-    goTo,
+  { home } = require("../resources/PO/timeLine/header");
 
-    newDriver
-  } = require("../resources/configuration/selenium");
+let driver = require("../resources/configuration/selenium"),
+  LoginPage = require("../resources/PO/LoginPage"),
+  Timeline = require("../resources/PO/TimelinePage"),
+  ProfilePage = require("../resources/PO/ProfilePage");
 
-let LoginPage = require("../resources/PO/LoginPage");
-let Timeline = require("../resources/PO/TimelinePage");
-let ProfilePage = require("../resources/PO/ProfilePage");
 describe.only("Twitter", () => {
   // beforeEach(() => {
   // loginPageInstance = new LoginPage();
@@ -26,8 +22,6 @@ describe.only("Twitter", () => {
 
   describe.only("Login Page", () => {
     beforeAll(async () => {
-      let d = await newDriver();
-
       let loginPageInstance = new LoginPage(d);
       console.log(await loginPageInstance);
       goTo(loginPageInstance.driver, ROOT_URL);
