@@ -25,7 +25,6 @@ describe.only("Twitter", () => {
     let loginPageInstance = new LoginPage(driver);
 
     beforeAll(async () => {
-      console.log(await loginPageInstance);
       driver.goTo(ROOT_URL);
     });
 

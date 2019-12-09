@@ -33,10 +33,10 @@ class LoginPage {
     await waitAndClickSelector(this.driver, this.homepageLogin);
     await TypeOnSelector(this.driver, this.emailField, email);
 
-    await this.driver.waitForSelector(this.driver, this.passwordField);
+    await this.driver.waitForSelector(this.passwordField);
     await TypeOnSelector(this.driver, this.passwordField, password);
 
-    await this.driver.waitForSelector(this.driver, this.loginButton);
+    await this.driver.waitForSelector(this.loginButton);
     await waitAndClickSelector(this.driver, this.loginButton);
   }
 }

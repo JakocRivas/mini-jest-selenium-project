@@ -15,11 +15,12 @@ async function waitAndClickSelector(driver, selector) {
   await driver.getElementBySelector(selector).then(element => element.click());
 }
 
-async function TypeOnSelector(driver, selector, string) {
+async function TypeOnSelector(driver, selector, word) {
+  console.log(word, selector);
   await driver.waitForSelector(selector);
   await driver
     .getElementBySelector(selector)
-    .then(element => element.sendKeys(string));
+    .then(element => element.sendKeys(word));
 }
 async function waitListOfSelectors(driver, arr) {
   await Promise.all(

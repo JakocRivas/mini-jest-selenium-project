@@ -44,10 +44,8 @@ class Driver {
   }
 
   async quit() {
-    // console.log(driver, "this is quit");
     await this.driver.close();
     await this.driver.quit();
-    // console.log(driver.toString());
   }
 
   /**
@@ -70,7 +68,6 @@ class Driver {
   }
 
   async goTo(url) {
-    // console.log(driver, "this is go to");
     await this.driver.get(url);
   }
 
