@@ -27,30 +27,30 @@ class Timeline {
   }
 
   async postMessage() {
-    await waitForSelector(this.driver, this.commentBox);
+    await this.driver.waitForSelector(this.commentBox);
     let comment = crypto.randomBytes(20).toString("hex");
 
     await waitAndClickSelector(this.driver, this.commentBox);
     await TypeOnSelector(this.driver, this.commentBox, comment);
-    const btn = await waitElementClickable(this.driver, this.tweetButton);
+    const btn = await this.driver.waitElementClickable(this.tweetButton);
     await btn.click();
 
-    await waitForSelector(this.driver, this.timelineComment);
-    await waitElementClickable(this.driver, this.timelineComment);
-    await waitForSelector(this.driver, timelineComment);
+    await this.driver.waitForSelector(this.timelineComment);
+    await this.driver.waitElementClickable(this.timelineComment);
+    await this.driver.waitForSelector(timelineComment);
 
-    await waitForSelector(this.driver, this.dropdown);
+    await this.driver.waitForSelector(this.dropdown);
   }
 
   async deleteMessage() {
     await waitAndClickSelector(this.driver, this.dropdown);
     await waitAndClickSelector(this.driver, this.dropdownDelete);
 
-    await waitElementClickable(this.driver, this.modalDelete);
+    await this.driver.waitElementClickable(this.modalDelete);
     await waitAndClickSelector(this.driver, this.modalDelete);
 
-    await waitForSelector(this.driver, this.alertDeleted);
-    await waitFor(this.driver, 5000);
+    await this.driver.waitForSelector(this.alertDeleted);
+    await this.driver.waitFor(5000);
   }
 }
 module.exports = Timeline;
