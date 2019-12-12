@@ -43,7 +43,9 @@ class Timeline {
   }
 
   async deleteMessage() {
+    await this.driver.waitForSelector(this.dropdown);
     await waitAndClickSelector(this.driver, this.dropdown);
+    await this.driver.waitForSelector(this.dropdownDelete);
     await waitAndClickSelector(this.driver, this.dropdownDelete);
 
     await this.driver.waitElementClickable(this.modalDelete);
