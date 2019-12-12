@@ -12,11 +12,11 @@ const {
  */
 async function waitAndClickSelector(driver, selector) {
   // await mouseOver(selector);
+  // await driver.waitForSelector(selector);
   await driver.getElementBySelector(selector).then(element => element.click());
 }
 
 async function TypeOnSelector(driver, selector, word) {
-  console.log(word, selector);
   await driver.waitForSelector(selector);
   await driver
     .getElementBySelector(selector)

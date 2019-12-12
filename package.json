@@ -4,7 +4,7 @@
   "description": "This is a practice project to get a hand of jest with selenium web driver",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest -i"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,6 @@
     "selenium-webdriver": "^4.0.0-alpha.5"
   },
   "dependencies": {
-    "image-downloader": "^3.5.0",
-    "webdriverio": "^5.16.10"
+    "image-downloader": "^3.5.0"
   }
 }

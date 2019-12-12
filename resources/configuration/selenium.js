@@ -23,7 +23,8 @@ const webdriver = require("selenium-webdriver"),
 let caps = new Capabilities(),
   ChromeOptions = new chrome.Options();
 // ChromeOptions.headless();
-caps.setPageLoadStrategy("eager");
+caps.setPageLoadStrategy("normal");
+
 ChromeOptions.addArguments([
   "--incognito",
   "--lang=en-GB",
@@ -32,20 +33,23 @@ ChromeOptions.addArguments([
   "--ignore-certificate-errors-spki-list",
   "--ignore-ssl-errors",
   "--page-load-strategy-normal",
-  "--standalone"
+  "--standalone",
+  "--whitelisted-ips"
 ]);
 
 class Driver {
   constructor() {
     this.driver = new Builder()
       .forBrowser(SELENIUM_BROWSER)
+      .withCapabilities(caps)
       .setChromeOptions(ChromeOptions)
       .build();
   }
 
   async quit() {
     await this.driver.close();
-    await this.driver.quit();
+    // await this.driver.quit();
+    this.driver = null;
   }
 
   /**
