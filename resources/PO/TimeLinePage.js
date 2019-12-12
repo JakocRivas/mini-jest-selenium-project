@@ -8,11 +8,6 @@ const { commentBox, tweetButton } = require("./timeLine/commentBox"),
     timelineComment,
     alertDeleted
   } = require("./timeLine/comment"),
-  {
-    waitForSelector,
-    waitElementClickable,
-    waitFor
-  } = require("../configuration/selenium"),
   { waitAndClickSelector, TypeOnSelector } = require("../helpers/helper");
 class Timeline {
   constructor(driver) {

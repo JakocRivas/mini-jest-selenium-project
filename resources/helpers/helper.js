@@ -11,8 +11,7 @@ const {
  * @param {string} selector
  */
 async function waitAndClickSelector(driver, selector) {
-  // await mouseOver(selector);
-  // await driver.waitForSelector(selector);
+  await driver.waitForSelector(selector);
   await driver.getElementBySelector(selector).then(element => element.click());
 }
 

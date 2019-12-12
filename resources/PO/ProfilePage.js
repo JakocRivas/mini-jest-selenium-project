@@ -15,13 +15,6 @@ const {
     avatar
   } = require("./profile/profile"),
   {
-    getElementBySelector,
-    waitForSelector,
-    waitElementClickable,
-    refresh,
-    pressEnter
-  } = require("../configuration/selenium"),
-  {
     waitAndClickSelector,
     TypeOnSelector,
     waitListOfSelectors
