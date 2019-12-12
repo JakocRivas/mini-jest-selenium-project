@@ -51,6 +51,9 @@ class Driver {
     // await this.driver.quit();
     this.driver = null;
   }
+  async endTestSuites() {
+    await this.driver.quit();
+  }
 
   /**
    * Waits for the web element of the selector to be visible and returns it

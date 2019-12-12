@@ -29,7 +29,7 @@ const {
 const crypto = require("crypto");
 
 class ProfilePage {
-  constructor() {
+  constructor(driver) {
     this.searchBar = searchBar;
     this.person = person;
     this.searchedPerson = searchedPerson;
@@ -43,30 +43,31 @@ class ProfilePage {
     this.navInformation = navInformation;
     this.avatar = avatar;
     this.results = results;
+    this.driver = driver;
   }
 
   async search() {
-    await refresh();
-    await waitForSelector(this.searchBar);
-    await waitElementClickable(this.searchBar);
+    await this.driver.refresh();
+    await this.driver.waitForSelector(this.searchBar);
+    await this.driver.waitElementClickable(this.searchBar);
 
-    await waitAndClickSelector(this.searchBar);
-    await TypeOnSelector(this.searchBar, this.person);
-    await waitAndClickSelector(this.searchBar);
+    await waitAndClickSelector(this.driver, this.searchBar);
+    await TypeOnSelector(this.driver, this.searchBar, this.person);
+    await waitAndClickSelector(this.driver, this.searchBar);
 
-    await pressEnter(this.searchBar);
+    await this.driver.pressEnter(this.searchBar);
 
-    await waitForSelector(this.searchedPerson);
-    await waitElementClickable(this.searchedPerson);
+    await this.driver.waitForSelector(this.searchedPerson);
+    await this.driver.waitElementClickable(this.searchedPerson);
 
-    await waitAndClickSelector(this.searchedPerson);
+    await waitAndClickSelector(this.driver, this.searchedPerson);
   }
 
   async getData() {
     let data = {};
 
     const accountData = async object => {
-      await waitListOfSelectors([
+      await waitListOfSelectors(this.driver, [
         // this.name,
         // this.account,
         this.bio,
@@ -81,18 +82,18 @@ class ProfilePage {
       // const personAccount = await getElementBySelector(this.account).then(
       //   text => text.getText()
       // );
-      const personBio = await getElementBySelector(this.bio).then(text =>
-        text.getText()
-      );
-      const personLocation = await getElementBySelector(
-        this.location
-      ).then(text => text.getText());
-      const personPersonalSite = await getElementBySelector(
-        this.personalSite
-      ).then(text => text.getText());
-      const personJoinDate = await getElementBySelector(
-        this.joinDate
-      ).then(text => text.getText());
+      const personBio = await this.driver
+        .getElementBySelector(this.bio)
+        .then(text => text.getText());
+      const personLocation = await this.driver
+        .getElementBySelector(this.location)
+        .then(text => text.getText());
+      const personPersonalSite = await this.driver
+        .getElementBySelector(this.personalSite)
+        .then(text => text.getText());
+      const personJoinDate = await this.driver
+        .getElementBySelector(this.joinDate)
+        .then(text => text.getText());
       // object["name"] = personName;
       // object["account"] = personAccount;
       object["bio"] = personBio;
@@ -115,8 +116,8 @@ class ProfilePage {
   }
 
   async sayCheese() {
-    await waitForSelector(this.avatar);
-    const img = await getElementBySelector(this.avatar);
+    await this.driver.waitForSelector(this.avatar);
+    const img = await this.driver.getElementBySelector(this.avatar);
 
     const imgSrc = await img
       .getAttribute("style")

@@ -44,21 +44,19 @@ describe("Twitter", () => {
   });
 
   describe("Timeline Page", () => {
-    const driver2 = new Driver();
+    const driver = new Driver();
 
-    let loginPageInstance = new LoginPage(driver2);
+    let loginPageInstance = new LoginPage(driver);
 
-    let timelineInstance = new Timeline(driver2);
+    let timelineInstance = new Timeline(driver);
 
     beforeAll(async () => {
-      console.log(loginPageInstance.driver);
-      console.log(timelineInstance.driver);
-      driver2.goTo(ROOT_URL);
+      driver.goTo(ROOT_URL);
     });
 
     afterAll(() => {
       console.log("This test suit have been run");
-      driver2.quit();
+      driver.quit();
     });
 
     it("should wait for the header to load", async () => {
@@ -78,7 +76,37 @@ describe("Twitter", () => {
       await timelineInstance.deleteMessage();
     });
   });
-  // describe("Profile Page", () => {});
+  describe("Profile Page", () => {
+    const driver = new Driver();
+    let loginPageInstance = new LoginPage(driver);
+    let profilePageInstance = new ProfilePage(driver);
+
+    beforeAll(() => {
+      driver.goTo(ROOT_URL);
+    });
+    afterAll(() => {
+      console.log("This test suit have been run");
+      driver.quit();
+    });
+
+    it("should wait for the header to load", async () => {
+      const header = await loginPageInstance.waitForHeader(signUpTitle);
+      expect(header).toBe("See what’s happening in the world right now");
+    });
+
+    it("should log in", async () => {
+      await loginPageInstance.login(EMAIL, PASSWORD);
+    });
+
+    it("should scrape the data of the searched profile", async () => {
+      const data = await profilePageInstance.search();
+      console.log(await data);
+    });
+
+    it("should download the profile avatar", async () => {
+      await profilePageInstance.sayCheese();
+    });
+  });
 });
 
 // describe("twitter", () => {
