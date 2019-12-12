@@ -1,10 +1,3 @@
-const {
-  getElementBySelector,
-  waitForElement,
-  getWebElement,
-  waitForSelector
-} = require("../configuration/selenium");
-
 /**
  * Helper function that get rids of the need to create an instance for a webElement to click it after waiting it by it selector
  *
@@ -24,7 +17,7 @@ async function TypeOnSelector(driver, selector, word) {
 async function waitListOfSelectors(driver, arr) {
   await Promise.all(
     arr.map(item => {
-      return waitForSelector(driver, item);
+      return driver.waitForSelector(item);
     })
   );
 }
